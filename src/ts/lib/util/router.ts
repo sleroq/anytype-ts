@@ -111,7 +111,7 @@ class UtilRouter {
 		S.Popup.closeAll();
 		focus.clear(true);
 
-		if (routeParam.spaceId && ![ space ].includes(routeParam.spaceId)) {
+		if (routeParam.spaceId && (routeParam.spaceId != space)) {
 			this.switchSpace(routeParam.spaceId, route, false, param, false);
 			return;
 		};
@@ -242,6 +242,14 @@ class UtilRouter {
 					analytics.removeContext();
 					S.Common.nullifySpaceKeys();
 
+					U.Data.onInfo(message.info);
+
+					const onStartingIdCheck = () => {
+						U.Data.onAuth({ route, routeParam: { ...routeParam, onRouteChange, animate: false } }, () => {
+							this.isOpening = false;
+						});
+					};
+
 					const onRouteChange = () => {
 						sidebar.leftPanelSetState({ page: U.Space.getDefaultSidebarPage() });
 
@@ -249,10 +257,20 @@ class UtilRouter {
 						routeParam.onRouteChange?.();
 					};
 
-					U.Data.onInfo(message.info);
-					U.Data.onAuth({ route, routeParam: { ...routeParam, onRouteChange, animate: false } }, () => {
-						this.isOpening = false;
-					});
+					const startingId = S.Auth.startingId.get(id);
+
+					if (startingId) {
+						U.Object.getById(startingId, {}, (object: any) => {
+							if (object) {
+								route = '/' + U.Object.route(object);
+							};
+							onStartingIdCheck();
+						});
+
+						S.Auth.startingId.delete(id);
+					} else {
+						onStartingIdCheck();
+					};
 				},
 			});
 		});
@@ -262,7 +280,7 @@ class UtilRouter {
 		const spaceview = U.Space.getSpaceview();
 		const rightSidebar = S.Common.getRightSidebarState(false);
 
-		if (!spaceview.isChat && (rightSidebar.page == 'widget')) {
+		if (!spaceview.isChat && [ 'object/relation', 'widget' ].includes(rightSidebar.page)) {
 			sidebar.rightPanelClose(false);
 		} else 
 		if (spaceview.isChat && (rightSidebar.page != 'widget')) {

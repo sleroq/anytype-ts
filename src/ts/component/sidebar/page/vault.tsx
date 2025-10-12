@@ -7,7 +7,7 @@ import { DndContext, closestCenter, useSensors, useSensor, PointerSensor, Keyboa
 import { SortableContext, verticalListSortingStrategy, sortableKeyboardCoordinates, arrayMove, useSortable } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis, restrictToParentElement } from '@dnd-kit/modifiers';
 import { CSS } from '@dnd-kit/utilities';
-import { IconObject, ObjectName, Filter, Label, Icon, Button, EmptySearch } from 'Component';
+import { IconObject, ObjectName, Filter, Label, Icon, Button, EmptySearch, ChatCounter } from 'Component';
 import { I, U, S, J, C, keyboard, translate, analytics, sidebar, Key, Highlight } from 'Lib';
 
 import ItemProgress from './vault/update';
@@ -18,7 +18,7 @@ const HEIGHT_ITEM = 64;
 const SidebarPageVaultBase = observer(forwardRef<{}, I.SidebarPageComponent>((props, ref) => {
 
 	const { getId } = props;
-	const { space, updateVersion } = S.Common;
+	const { updateVersion } = S.Common;
 	const [ filter, setFilter ] = useState('');
 	const checkKeyUp = useRef(false);
 	const closeSidebar = useRef(false);
@@ -30,9 +30,9 @@ const SidebarPageVaultBase = observer(forwardRef<{}, I.SidebarPageComponent>((pr
 		useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
 	);
 	const profile = U.Space.getProfile();
-	const theme = S.Common.getThemeClass();
 	const settings = { ...profile, id: 'settings', tooltip: translate('commonAppSettings'), layout: I.ObjectLayout.Human };
 	const progress = S.Progress.getList(it => it.type == I.ProgressType.Update);
+	const menuHelpOffset = U.Data.isFreeMember() ? -78 : -4;
 
 	const unbind = () => {
 		const events = [ 'keydown', 'keyup' ];
@@ -161,14 +161,19 @@ const SidebarPageVaultBase = observer(forwardRef<{}, I.SidebarPageComponent>((pr
 
 	const getItems = () => {
 		let items = U.Menu.getVaultItems().map(it => {
-			if (!it.isChat) {
+			if (!it.chatId) {
 				return it;
 			};
 
-			const list = S.Chat.getList(S.Chat.getSpaceSubId(it.targetSpaceId));
-
-			it.lastMessage = list.length ? S.Chat.getMessageSimpleText(it.targetSpaceId, list[list.length - 1]) : '';
+			it.lastMessage = '';
 			it.counters = S.Chat.getSpaceCounters(it.targetSpaceId);
+
+			const list = S.Chat.getList(S.Chat.getSpaceSubId(it.targetSpaceId)).slice(0);
+			if (list.length) {
+				list.sort((c1, c2) => U.Data.sortByNumericKey('createdAt', c1, c2, I.SortType.Desc));
+				it.lastMessage = S.Chat.getMessageSimpleText(it.targetSpaceId, list[0]);
+			};
+
 			return it;
 		});
 
@@ -279,15 +284,10 @@ const SidebarPageVaultBase = observer(forwardRef<{}, I.SidebarPageComponent>((pr
 		const cn = [ 'item' ];
 		const icons = [];
 
-		let cnt = null;
-		if (item.counters) {
-			if (item.counters.mentionCounter) {
-				cnt = <Icon className="mention" />;
-			} else 
-			if (item.counters.messageCounter) {
-				cnt = S.Chat.counterString(item.counters.messageCounter);
-			};
-		};
+		let iconMute = null;
+		let time = null;
+		let last = null;
+		let counter = null;
 
 		if (isDragging) {
 			cn.push('isDragging');
@@ -297,17 +297,23 @@ const SidebarPageVaultBase = observer(forwardRef<{}, I.SidebarPageComponent>((pr
 			cn.push('isLoading');
 		};
 
-		if (item.isPinned && !cnt) {
+		if (item.isPinned && !item.counters?.mentionCounter && !item.counters?.messageCounter) {
 			cn.push('isPinned');
 			icons.push('pin');
 		};
 
-		if (item.isMuted) {
-			cn.push('isMuted');
-		};
-
 		if (!item.lastMessage) {
 			cn.push('noMessages');
+		};
+
+		if (item.chatId) {
+			if (item.isMuted) {
+				iconMute = <Icon className="muted" />;
+			};
+
+			time = <div className="time">{U.Date.timeAgo(item.lastMessageDate)}</div>;
+			last = <Label text={item.lastMessage} />;
+			counter = <ChatCounter {...item.counters} mode={item.notificationMode} />;
 		};
 
 		return (
@@ -330,20 +336,19 @@ const SidebarPageVaultBase = observer(forwardRef<{}, I.SidebarPageComponent>((pr
 					<div className="nameWrapper">
 						<div className="nameInner">
 							<ObjectName object={item} />
-
-							{item.isChat && item.isMuted ? <Icon className="muted" /> : ''}
+							{iconMute}
 						</div>
 
-						{item.isChat ? <div className="time">{U.Date.timeAgo(item.lastMessageDate)}</div> : ''}
+						{time}
 					</div>
 					<div className="messageWrapper">
-						{item.isChat ? <Label text={item.lastMessage} /> : ''}
+						{last}
 
 						<div className="icons">
 							{icons.map(icon => <Icon key={icon} className={icon} />)}
 						</div>
 
-						{item.isChat && cnt ? <div className="cnt">{cnt}</div> : ''}
+						{counter}
 					</div>
 				</div>
 			</div>
@@ -399,7 +404,7 @@ const SidebarPageVaultBase = observer(forwardRef<{}, I.SidebarPageComponent>((pr
 			className: 'fixed',
 			classNameWrap: 'fromSidebar',
 			vertical: I.MenuDirection.Top,
-			offsetY: -78,
+			offsetY: menuHelpOffset,
 			subIds: J.Menu.help,
 		});
 	};

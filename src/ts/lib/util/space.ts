@@ -25,6 +25,20 @@ class UtilSpace {
 		U.Object.openRoute(home, param);
 	};
 
+	openDashboardOrVoid (param?: any) {
+		param = param || {};
+
+		if (undefined === param.replace) {
+			param.replace = true;
+		};
+		
+		if (S.Common.space) {
+			U.Space.openDashboard(param);
+		} else {
+			U.Router.go('/main/void/select', param);
+		};
+	};
+
 	/**
 	 * Opens the first available space or a void page if none exist.
 	 * @param {(it: any) => boolean} [filter] - Optional filter function for spaces.
@@ -185,7 +199,13 @@ class UtilSpace {
 	 * @returns {any} The spaceview object.
 	 */
 	getSpaceviewBySpaceId (id: string) {
-		return S.Detail.get(J.Constant.subId.space, S.Record.spaceMap.get(id));
+		const viewId = S.Record.spaceMap.get(id);
+		if (!viewId) {
+			return null;
+		};	
+
+		const ret = S.Detail.get(J.Constant.subId.space, viewId);
+		return ret._empty_ ? null : ret;
 	};
 
 	/**
@@ -415,7 +435,8 @@ class UtilSpace {
 	 */
 	getDefaultSidebarPage (id?: string): string {
 		const space = this.getSpaceview(id);
-		return space?.isChat ? 'vault' : 'widget';
+
+		return space._empty_ || space?.isChat ? 'vault' : 'widget';
 	};
 
 };

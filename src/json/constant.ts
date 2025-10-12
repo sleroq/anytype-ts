@@ -121,12 +121,12 @@ export default {
 		space:			 		'space',
 		participant:	 		'participant',
 		subSpace:		 		'subSpace',
-		allObject:		 		'allObject',
 		library: 		 		'library',
 		chatSpace:		 		'lastMessage',
 		template:		 		'template',
 		fileManagerSynced: 		'fileManagerSynced',
-		fileManagerNotSynced: 	'fileManagerNotSynced'
+		fileManagerNotSynced: 	'fileManagerNotSynced',
+		chatPreview:	 		'chatPreview',
 	},
 
 	typeKey: {
@@ -171,7 +171,7 @@ export default {
 	},
 
 	widgetId: {
-		allObject:		 'allObjects',
+		allObject:		 'allObject',
 		favorite:		 'favorite',
 		recentEdit:		 'recent',
 		recentOpen:		 'recentOpen',
