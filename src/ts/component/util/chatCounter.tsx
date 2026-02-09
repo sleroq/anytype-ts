@@ -57,6 +57,7 @@ const ChatCounter = observer(forwardRef<HTMLDivElement, Props>((props, ref) => {
 	const cnMention = [ 'mention' ];
 	const cnMessage = [ 'message' ];
 	const showMention = mentionCounter && !spaceview?.isOneToOne && !disableMention;
+	const showMessage = messageCounter && (modeMessage != I.NotificationMode.Nothing);
 
 	if (modeMention == I.NotificationMode.Nothing) {
 		cnMention.push('isMuted');
@@ -68,7 +69,7 @@ const ChatCounter = observer(forwardRef<HTMLDivElement, Props>((props, ref) => {
 	return (
 		<div className={cn.join(' ')}>
 			{showMention ? <Icon className={cnMention.join(' ')} /> : ''}
-			{messageCounter ? <Icon className={cnMessage.join(' ')} inner={S.Chat.counterString(messageCounter)} /> : ''}
+			{showMessage ? <Icon className={cnMessage.join(' ')} inner={S.Chat.counterString(messageCounter)} /> : ''}
 		</div>
 	);
 
