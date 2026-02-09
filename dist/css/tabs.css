@@ -147,12 +147,12 @@ body.platform-win32.showMenuBar {
 
 #tabsBackground {
 	height: 100%; background: var(--color-shape-tertiary); top: 0px; position: absolute;
-	border-radius: 16px; z-index: 0; pointer-events: none; -webkit-app-region: no-drag;
+	border-radius: 18px; z-index: 0; pointer-events: none; -webkit-app-region: no-drag;
 }
 
 #marker {
 	width: 200px; height: calc(100% - 4px); background: var(--color-bg-primary); left: 2px; top: 2px; position: absolute;
-	border-radius: 16px; z-index: 1; pointer-events: none; -webkit-app-region: no-drag;
+	border-radius: 18px; z-index: 1; pointer-events: none; -webkit-app-region: no-drag;
 }
 #marker.anim { transition: width, left 0.1s ease-in-out; }
 
