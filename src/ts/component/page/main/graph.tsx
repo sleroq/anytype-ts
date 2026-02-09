@@ -44,10 +44,7 @@ const PageMainGraph = observer(forwardRef<I.PageRef, I.PageComponent>((props, re
 				return;
 			};
 
-			setData({
-				edges: message.edges,
-				nodes: message.nodes.map(it => S.Detail.mapper(it)).filter(it => it.type),
-			});
+			setData(U.Data.getGraphData(message));
 		});
 	};
 

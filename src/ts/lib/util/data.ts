@@ -897,6 +897,16 @@ class UtilData {
 		]);
 	};
 
+	getGraphData (message: any): { nodes: any[]; edges: any[] } {
+		const nodes = message.nodes.map(it => S.Detail.mapper(it)).filter(it => it.type);
+		const nodeIds = new Set(nodes.map(it => it.id));
+
+		return {
+			nodes,
+			edges: message.edges.filter(it => nodeIds.has(it.source) && nodeIds.has(it.target)),
+		};
+	};
+
 	/**
 	 * Moves a list of block IDs to a new page of a given type.
 	 * @param {string} rootId - The root object ID.

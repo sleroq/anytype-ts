@@ -31,10 +31,7 @@ const ViewGraph = observer(forwardRef<I.ViewRef, I.ViewComponent>((props, ref) =
 
 		C.ObjectGraph(S.Common.space, filters, 0, [], J.Relation.graph, (isCollection ? target.id : ''), target.setOf, settings.typeEdges, (message: any) => {
 			if (!message.error.code) {
-				setData({ 
-					edges: message.edges,
-					nodes: message.nodes.map(it => S.Detail.mapper(it)).filter(it => it.type), 
-				});
+				setData(U.Data.getGraphData(message));
 			};
 		});
 	};

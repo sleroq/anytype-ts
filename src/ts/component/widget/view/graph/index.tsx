@@ -21,10 +21,7 @@ const WidgetViewGraph = observer(forwardRef<{}, I.WidgetViewComponent>((props, r
 		const settings = S.Common.getGraph(J.Constant.graphId.dataview);
 
 		C.ObjectGraph(S.Common.space, filters, 0, [], J.Relation.graph, (isCollection ? object.id : ''), object.setOf, settings.typeEdges, (message: any) => {
-			setData({
-				edges: message.edges,
-				nodes: message.nodes.map(it => S.Detail.mapper(it)).filter(it => it.type)
-			});
+			setData(U.Data.getGraphData(message));
 		});
 	};
 
