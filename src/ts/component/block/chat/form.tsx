@@ -74,7 +74,7 @@ const ChatForm = observer(forwardRef<RefProps, Props>((props, ref) => {
 	const spaceview = U.Space.getSpaceview();
 	const electron = U.Common.getElectron();
 	
-	let attachments = S.Chat.getAttachments(attachmentsSubId);
+	const attachments = S.Chat.getAttachments(attachmentsSubId);
 
 	const setAttachments = (list: any[]) => {
 		S.Chat.setAttachments(attachmentsSubId, list);
