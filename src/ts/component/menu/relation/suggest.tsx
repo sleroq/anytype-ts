@@ -331,7 +331,7 @@ const MenuRelationSuggest = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) 
 				<Filter 
 					ref={filterRef}
 					className="outlined"
-					placeholderFocus={translate('menuRelationSuggestFilterOrCreateRelation')}
+					placeholder={translate('menuRelationSuggestFilterOrCreateRelation')}
 					value={filter}
 					onChange={onFilterChange}
 					focusOnMount={true}

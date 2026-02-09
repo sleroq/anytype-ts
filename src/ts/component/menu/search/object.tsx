@@ -16,8 +16,9 @@ const MenuSearchObject = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => 
 	const { param, onKeyDown, setActive, getId, position } = props;
 	const { data, menuKey } = param;
 	const { 
-		filter, value, placeholder, label, noFilter, noIcon, onMore, withPlural, canAdd, addParam,
+		filter, value, label, noFilter, noIcon, onMore, withPlural, canAdd, addParam,
 		isBig, noInfiniteLoading, type, dataMapper, dataSort, dataChange, skipIds, keys, limit,
+		placeholder = translate('commonFilterObjects'),
 	} = data;
 
 	const [ isLoading, setIsLoading ] = useState(false);
@@ -30,7 +31,6 @@ const MenuSearchObject = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => 
 	const n = useRef(0);
 	const offset = useRef(0);
 	const cn = [ 'wrap' ];
-	const placeholderFocus = data.placeholderFocus || translate('commonFilterObjects');
 
 	if (label) {
 		cn.push('withLabel');
@@ -451,7 +451,6 @@ const MenuSearchObject = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => 
 					ref={filterRef}
 					className="outlined"
 					placeholder={placeholder} 
-					placeholderFocus={placeholderFocus} 
 					value={filter}
 					onChange={onFilterChange} 
 					onKeyDown={onFilterKeyDown}

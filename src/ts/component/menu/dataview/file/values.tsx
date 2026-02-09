@@ -58,7 +58,7 @@ const MenuDataviewFileValues = observer(forwardRef<I.MenuRef, I.Menu>((props, re
 			data: {
 				...data,
 				noClose: true,
-				placeholderFocus: translate('menuDataviewFileValuesFindAFile'),
+				placeholder: translate('menuDataviewFileValuesFindAFile'),
 				filters: [
 					{ relationKey: 'resolvedLayout', condition: I.FilterCondition.In, value: U.Object.getFileLayouts() }
 				],

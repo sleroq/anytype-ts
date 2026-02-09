@@ -842,7 +842,7 @@ const OptionSelect = observer(forwardRef<OptionSelectRefProps, Props>((props, re
 				<Filter
 					className="outlined round"
 					ref={filterRef}
-					placeholderFocus={placeholder}
+					placeholder={placeholder}
 					value={filter}
 					onChange={onFilterChange}
 					focusOnMount={true}

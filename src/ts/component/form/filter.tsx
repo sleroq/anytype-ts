@@ -10,7 +10,6 @@ interface Props {
 	icon?: string;
 	value?: string;
 	placeholder?: string;
-	placeholderFocus?: string;
 	tooltipParam?: I.TooltipParam;
 	focusOnMount?: boolean;
 	onClick?(e: any): void;
@@ -41,7 +40,6 @@ const Filter = forwardRef<FilterRefProps, Props>(({
 	icon = '',
 	value = '',
 	placeholder = translate('commonFilterClick'),
-	placeholderFocus = '',
 	tooltipParam = {},
 	focusOnMount = false,
 	onClick,
@@ -90,21 +88,11 @@ const Filter = forwardRef<FilterRefProps, Props>(({
 
 	const onFocusHandler = (e: any) => {
 		setIsFocused(true);
-
-		if (placeholderFocus) {
-			placeholderSet(placeholderFocus);
-		};
-
 		onFocus?.(e);
 	};
 	
 	const onBlurHandler = (e: any) => {
 		setIsFocused(false);
-
-		if (placeholderFocus) {
-			placeholderSet(placeholder);
-		};
-
 		onBlur?.(e);
 	};
 

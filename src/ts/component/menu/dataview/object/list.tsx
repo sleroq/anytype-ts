@@ -21,7 +21,7 @@ const MenuDataviewObjectList = observer(forwardRef<I.MenuRef, I.Menu>((props, re
 	const { data } = param;
 	const {
 		filter, noFilter, cellRef, canEdit, onChange, maxCount, canAdd, nameCreate, dataChange,
-		placeholderFocus = translate('commonFilterObjects'),
+		placeholder = translate('commonFilterObjects'),
 	} = data;
 	const cache = useRef(new CellMeasurerCache({ fixedHeight: true, defaultHeight: HEIGHT_ITEM }));
 	const filterRef = useRef(null);
@@ -357,7 +357,7 @@ const MenuDataviewObjectList = observer(forwardRef<I.MenuRef, I.Menu>((props, re
 					className="outlined"
 					icon="search"
 					ref={filterRef} 
-					placeholderFocus={placeholderFocus}
+					placeholder={placeholder}
 					value={filter}
 					onChange={onFilterChange} 
 				/>

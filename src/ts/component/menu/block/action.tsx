@@ -694,7 +694,7 @@ const MenuBlockAction = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 			<Filter 
 				ref={filterRef}
 				className="outlined"
-				placeholderFocus={translate('menuBlockActionsFilterActions')}
+				placeholder={translate('menuBlockActionsFilterActions')}
 				value={filter}
 				onFocus={onFilterFocus} 
 				onChange={onFilterChange} 

@@ -332,7 +332,7 @@ const MenuTypeSuggest = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 				<Filter 
 					ref={filterRef}
 					className="outlined"
-					placeholderFocus={translate('menuTypeSuggestFilterTypes')}
+					placeholder={translate('menuTypeSuggestFilterTypes')}
 					value={filter}
 					onChange={onFilterChange} 
 					focusOnMount={true}

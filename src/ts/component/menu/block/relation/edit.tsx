@@ -120,7 +120,7 @@ const MenuBlockRelationEdit = observer(forwardRef<I.MenuRef, I.Menu>((props, ref
 				addParam: {
 					details: { type: type.id }
 				},
-				placeholderFocus: translate('menuBlockRelationEditFilterObjectTypes'),
+				placeholder: translate('menuBlockRelationEditFilterObjectTypes'),
 				value: objectTypes, 
 				types: [ type.id ],
 				filters: [

@@ -233,7 +233,7 @@ const MenuDataviewFileList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref)
 			<Filter
 				ref={filterInputRef}
 				className="outlined"
-				placeholderFocus={translate('commonFilterObjects')}
+				placeholder={translate('commonFilterObjects')}
 				value={filter}
 				onChange={onFilterChange} 
 				focusOnMount={true}
