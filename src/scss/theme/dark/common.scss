@@ -142,9 +142,14 @@ html.themeDark {
 
 			.icon.volume { background-image: url('#{$themePath}/icon/audio/volume.svg'); }
 			.icon.volume.active { background-image: url('#{$themePath}/icon/audio/mute.svg'); }
-			
+
 			.icon.volume.muted { background-image: url('#{$themePath}/icon/audio/mute.svg'); }
 		}
+	}
+
+	.graphTimeline {
+		.iconPlay { background-image: url('#{$themePath}/icon/audio/play.svg'); }
+		.iconPlay.active { background-image: url('#{$themePath}/icon/audio/pause.svg'); }
 	}
 
 	.switch { background: var(--color-shape-secondary); }
