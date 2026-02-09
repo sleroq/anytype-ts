@@ -72,6 +72,8 @@
 		.content { overflow-y: auto; overflow-x: hidden; max-height: 368px; padding: 8px 0px; border-radius: inherit; transform: none; }
 		.ReactVirtualized__List { padding: 8px 0px; }
 
+		.filter { padding: 0px 16px; }
+
 		.loaderWrapper { 
 			position: absolute; left: 0px; top: 0px; z-index: 20; width: 100%; height: 100%; border-radius: 12px;
 			background: var(--color-bg-loader);
