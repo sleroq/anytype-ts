@@ -195,19 +195,6 @@ class Keyboard {
 		const route = analytics.route.shortcut;
 		const electron = U.Common.getElectron();
 
-		this.shortcut('toggleSidebar', e, () => {
-			e.preventDefault();
-
-			sidebar.leftPanelToggle();
-		});
-
-		this.shortcut('toggleSidebarAndWidgets', e, () => {
-			e.preventDefault();
-
-			sidebar.leftPanelToggle();
-			sidebar.leftPanelSubPageToggle('widget');
-		});
-
 		if (this.isMainEditor()) {
 			this.shortcut('tableOfContents', e, () => {
 				e.preventDefault();
@@ -383,9 +370,25 @@ class Keyboard {
 				S.Popup.open('logout', {});
 			});
 
+			// Left panel
+			this.shortcut('toggleSidebar', e, () => {
+				e.preventDefault();
+				sidebar.leftPanelToggle(true, true);
+			});
+
 			// Widget panel
 			this.shortcut('widget', e, () => {
-				sidebar.leftPanelSubPageToggle('widget');
+				e.preventDefault();
+
+				sidebar.leftPanelSubPageToggle('widget', true, true);
+			});
+
+			// Both panels
+			this.shortcut('toggleSidebarAndWidgets', e, () => {
+				e.preventDefault();
+
+				sidebar.leftPanelToggle(false, true);
+				sidebar.leftPanelSubPageToggle('widget', false, false);
 			});
 
 			if (canWrite) {

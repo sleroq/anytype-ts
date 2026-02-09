@@ -44,7 +44,6 @@ const getSections = () => {
 						{ id: 'moveToBin', name: translate('popupShortcutMainBasics25'), keys: [] },
 						{ id: 'addFavorite', name: translate('popupShortcutMainBasics26'), keys: [] },
 						{ id: 'tableOfContents', name: translate('sidebarToc'), keys: [] },
-						{ id: 'widget', name: translate('popupShortcutMainBasics28'), keys: [] },
 						{ id: 'createSpace', name: translate('commonCreateSpace'), keys: [] },
 						{ id: 'logout', name: translate('commonLogout'), keys: [] },
 					]
@@ -53,7 +52,8 @@ const getSections = () => {
 				{
 					name: translate('popupShortcutInterface'), children: [
 						{ id: 'toggleSidebar', name: translate('popupShortcutMainBasics15'), keys: [ cmdKey, '.' ] },
-					{ id: 'toggleSidebarAndWidgets', name: translate('popupShortcutMainBasics32'), keys: [] },
+						{ id: 'widget', name: translate('popupShortcutMainBasics28'), keys: [] },
+						{ id: 'toggleSidebarAndWidgets', name: translate('popupShortcutMainBasics32'), keys: [] },
 						{ id: 'toggleFullScreen', name: translate('popupShortcutMainBasics5'), keys: [ cmdKey, 'shift', 'f' ] },
 						{ id: 'zoomIn', name: translate('popupShortcutMainBasics16'), keys: [ cmdKey, '=' ] },
 						{ id: 'zoomOut', name: translate('popupShortcutMainBasics17'), keys: [ cmdKey, '-' ] },

@@ -387,7 +387,7 @@ const PopupShortcut = forwardRef<{}, I.Popup>((props, ref) => {
 			const key = keyboard.eventKey(e);
 			const which = e.which;
 			const code = String(e.code || '').toLowerCase();
-			const skip = [ Key.meta, Key.ctrl ];
+			const skip = [ Key.meta, Key.ctrl, Key.alt, Key.shift ];
 			const special = [ 'comma' ];
 
 			if (key == Key.escape) {
@@ -399,6 +399,8 @@ const PopupShortcut = forwardRef<{}, I.Popup>((props, ref) => {
 				pressed = pressed.concat(metaKeys);
 			};
 
+			console.log('KEY', key);
+			
 			if (!skip.includes(key)) {
 				let parsedCode = false;
 
@@ -426,6 +428,9 @@ const PopupShortcut = forwardRef<{}, I.Popup>((props, ref) => {
 					pressed.push(code);
 				};
 			};
+
+			console.log(JSON.stringify(metaKeys, null, 3));
+			console.log(JSON.stringify(pressed, null, 3));
 
 			pressed = U.Common.arrayUnique(pressed);
 

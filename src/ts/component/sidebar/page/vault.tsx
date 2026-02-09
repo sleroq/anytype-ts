@@ -621,7 +621,7 @@ const SidebarPageVault = observer(forwardRef<{}, I.SidebarPageComponent>((props,
 									caption: keyboard.getCaption('toggleSidebar'), 
 									typeY: I.MenuDirection.Bottom,
 								}}
-								onClick={() => sidebar.leftPanelToggle()}
+								onClick={() => sidebar.leftPanelToggle(true, true)}
 								onMouseDown={e => e.stopPropagation()}
 							/>
 						</>

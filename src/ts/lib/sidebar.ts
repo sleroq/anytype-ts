@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import raf from 'raf';
 import { analytics, I, J, keyboard, S, Storage, U } from 'Lib';
+import { t } from '@excalidraw/excalidraw/types/i18n';
 
 interface SidebarData {
 	width: number;
@@ -125,12 +126,12 @@ class Sidebar {
 	toggle (panel: I.SidebarPanel, subPage?: string): void {
 		switch (panel) {
 			case I.SidebarPanel.Left: {
-				this.leftPanelToggle();
+				this.leftPanelToggle(true, true);
 				break;
 			};
 
 			case I.SidebarPanel.SubLeft: {
-				this.leftPanelSubPageToggle(subPage);
+				this.leftPanelSubPageToggle(subPage, true, true);
 				break;
 			};
 		};
@@ -198,14 +199,14 @@ class Sidebar {
 	/**
 	 * Toggles the sidebar open/close state.
 	 */
-	leftPanelToggle () {
+	leftPanelToggle (animate: boolean, save: boolean) {
 		if (this.isAnimating) {
 			return;
 		};
 		
 		const { width, isClosed } = this.getData(I.SidebarPanel.Left);
 
-		isClosed ? this.leftPanelOpen(width, true, true) : this.leftPanelClose(true, true);
+		isClosed ? this.leftPanelOpen(width, animate, save) : this.leftPanelClose(animate, save);
 		S.Menu.closeAll();
 		analytics.event(isClosed ? 'ExpandSidebar' : 'CollapseSidebar');
 	};
@@ -390,14 +391,10 @@ class Sidebar {
 		analytics.event('ExpandWidgetPanel');
 	};
 
-	leftPanelSubPageToggle (id: string) {
+	leftPanelSubPageToggle (id: string, animate: boolean, save: boolean) {
 		const { isClosed } = this.getData(I.SidebarPanel.SubLeft);
-
-		if (isClosed) {
-			this.leftPanelSubPageOpen(id, true, true);
-		} else {
-			this.leftPanelSubPageClose(true, true);
-		};
+		
+		isClosed ? this.leftPanelSubPageOpen(id, animate, save) : this.leftPanelSubPageClose(animate, save);
 	};
 
 	/**
@@ -492,6 +489,10 @@ class Sidebar {
 	 * @param {boolean} animate - Whether to animate the resize.
 	 */
 	resizePage (isPopup: boolean, widthLeft: number, widthRight: number, animate: boolean): void {
+		if (animate) {
+			console.trace();
+		};
+
 		if (this.isAnimating) {
 			return;
 		};

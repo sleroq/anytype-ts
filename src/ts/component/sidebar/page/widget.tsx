@@ -594,7 +594,7 @@ const SidebarPageWidget = observer(forwardRef<{}, I.SidebarPageComponent>((props
 				<div className="side left">
 					<Icon
 						className="vaultToggle withBackground"
-						onClick={() => sidebar.leftPanelToggle()}
+						onClick={() => sidebar.leftPanelToggle(true, true)}
 						tooltipParam={{
 							text: translate('commonVault'),
 							typeY: I.MenuDirection.Bottom,
@@ -602,7 +602,7 @@ const SidebarPageWidget = observer(forwardRef<{}, I.SidebarPageComponent>((props
 					/>
 					<Icon 
 						className="widgetPanel withBackground" 
-						onClick={() => sidebar.leftPanelSubPageToggle('widget')}
+						onClick={() => sidebar.leftPanelSubPageToggle('widget', true, true)}
 						tooltipParam={{ 
 							text: translate('commonWidgets'), 
 							caption: keyboard.getCaption('widget'), 
