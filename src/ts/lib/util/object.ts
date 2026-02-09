@@ -284,16 +284,12 @@ class UtilObject {
 	Opens object based on user setting 'Open objects in fullscreen mode'
 	*/
 	openConfig (e: any, object: any, param?: any) {
-		const cb = () => {
-			if (e && ((e.metaKey || e.ctrlKey) || (e.button == 1))) {
-				this.openTab(object);
-				return;
-			};
-
-			S.Common.fullscreenObject ? this.openAuto(object, param) : this.openPopup(object, param);
+		if (e && ((e.metaKey || e.ctrlKey) || (e.button == 1))) {
+			this.openTab(object);
+			return;
 		};
 
-		S.Menu.closeAll(null, cb);
+		S.Common.fullscreenObject ? this.openAuto(object, param) : this.openPopup(object, param);
 	};
 
 	/**
