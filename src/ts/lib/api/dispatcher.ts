@@ -366,11 +366,6 @@ class Dispatcher {
 						break;
 					};
 
-					if (!isSync && (id == focus.state.focused)) {
-						console.error('[Dispatcher] BlockSetText: focus', id);
-						Sentry.captureMessage('[Dispatcher] BlockSetText: focus');
-					};
-
 					const content: Partial<I.ContentText> = {};
 
 					if (text !== null) {
@@ -1413,7 +1408,7 @@ class Dispatcher {
 			this.service[ct](data, { token: S.Auth.token }, (error: any, response: any) => {
 				if (error) {
 					console.error('GRPC Error', type, error);
-					Sentry.captureMessage(`${type}: msg: ${error.message}`);
+					//Sentry.captureMessage(`${type}: msg: ${error.message}`);
 					callBack?.({ error: { code: error.code, description: error.message } });
 					return;
 				};
