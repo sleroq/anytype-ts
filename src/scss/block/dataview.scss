@@ -227,7 +227,7 @@
 				.separator.vertical { width: 1px; height: 20px; background-color: var(--color-shape-secondary); align-self: center; flex-shrink: 0; }
 
 				.filterItem {
-					position: relative; display: flex; flex-direction: row; gap: 0px 6px; height: 28px; align-items: center; padding: 0px 8px;
+					position: relative; display: flex; flex-direction: row; gap: 0px 4px; height: 28px; align-items: center; padding: 0px 10px 0px 8px;
 					border-radius: 16px; color: var(--color-text-secondary); font-weight: 500;
 				}
 				.filterItem {
