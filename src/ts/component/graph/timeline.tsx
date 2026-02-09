@@ -1,6 +1,7 @@
-import React, { forwardRef, useRef, useEffect, useState, useCallback } from 'react';
+import React, { forwardRef, useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import $ from 'jquery';
 import { observer } from 'mobx-react';
+import NumberFlow, { NumberFlowGroup } from '@number-flow/react';
 import { Icon, DragHorizontal } from 'Component';
 import { S, J, translate } from 'Lib';
 
@@ -11,6 +12,9 @@ interface Props {
 };
 
 const SPEEDS = [ 1, 2, 4 ];
+const DATE_THROTTLE = 300;
+const PAD2: Intl.NumberFormatOptions = { minimumIntegerDigits: 2 };
+const YEAR_FORMAT: Intl.NumberFormatOptions = { useGrouping: false };
 
 const GraphTimeline = observer(forwardRef<{}, Props>(({
 	id = '',
@@ -22,15 +26,31 @@ const GraphTimeline = observer(forwardRef<{}, Props>(({
 	const dragRef = useRef(null);
 	const [ isPlaying, setIsPlaying ] = useState(false);
 	const [ position, setPosition ] = useState(0);
-	const [ dateLabel, setDateLabel ] = useState('');
+	const [ cutoffDate, setCutoffDate ] = useState(0);
 	const [ speed, setSpeed ] = useState(1);
 	const [ dummy, setDummy ] = useState(0);
+	const lastDateUpdate = useRef(0);
+	const pendingDate = useRef(0);
 	const settings = S.Common.getGraph(storageKey);
+
+	const date = useMemo(() => {
+		if (!cutoffDate) {
+			return null;
+		};
+
+		const d = new Date(cutoffDate * 1000);
+		return {
+			month: d.getMonth() + 1,
+			day: d.getDate(),
+			year: d.getFullYear(),
+		};
+	}, [ cutoffDate ]);
 
 	const onPlay = useCallback(() => {
 		if (isPlaying) {
 			graphRef.current?.timelinePause();
 			setIsPlaying(false);
+			setCutoffDate(pendingDate.current);
 		} else {
 			graphRef.current?.timelineStart(speed);
 			setIsPlaying(true);
@@ -61,13 +81,21 @@ const GraphTimeline = observer(forwardRef<{}, Props>(({
 
 		const onTimelineUpdate = (e: any, data: any) => {
 			setPosition(data.position);
-			setDateLabel(data.dateLabel);
 			setIsPlaying(data.isPlaying);
 			dragRef.current?.setValue(data.position);
+
+			pendingDate.current = data.cutoffDate;
+
+			const now = performance.now();
+			if (!data.isPlaying || (now - lastDateUpdate.current >= DATE_THROTTLE)) {
+				setCutoffDate(data.cutoffDate);
+				lastDateUpdate.current = now;
+			};
 		};
 
 		const onTimelineComplete = () => {
 			setIsPlaying(false);
+			setCutoffDate(pendingDate.current);
 		};
 
 		const onSettingsUpdate = () => {
@@ -114,7 +142,15 @@ const GraphTimeline = observer(forwardRef<{}, Props>(({
 				</div>
 
 				<div className="dateLabel">
-					{dateLabel}
+					{date ? (
+						<NumberFlowGroup>
+							<NumberFlow value={date.month} format={PAD2} willChange animated />
+							<span className="separator">/</span>
+							<NumberFlow value={date.day} format={PAD2} willChange animated />
+							<span className="separator">/</span>
+							<NumberFlow value={date.year} format={YEAR_FORMAT} willChange animated />
+						</NumberFlowGroup>
+					) : null}
 				</div>
 			</div>
 		</div>

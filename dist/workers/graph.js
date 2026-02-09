@@ -548,6 +548,23 @@ buildTimelineSortedNodes = () => {
 };
 
 /**
+ * Maps a timeline position (0-1) to a cutoff date using node-count weighting.
+ * Periods with more nodes get proportionally more playback time.
+ */
+getTimelineCutoffDate = (position) => {
+	if (!timelineSortedNodes.length) {
+		return 0;
+	};
+
+	const idx = Math.min(
+		Math.floor(position * timelineSortedNodes.length),
+		timelineSortedNodes.length - 1
+	);
+
+	return timelineSortedNodes[idx].createdDate;
+};
+
+/**
  * Formats a unix timestamp (seconds) to "Mon DD, YYYY".
  */
 formatTimelineDate = (timestamp) => {
@@ -603,7 +620,7 @@ timelineRebuildSimulation = () => {
 		return;
 	};
 
-	const cutoffDate = timelineMinDate + (timelineDateRange * timelinePosition);
+	const cutoffDate = getTimelineCutoffDate(timelinePosition);
 	const prevVisible = timelineVisibleNodeIds;
 	const newVisible = new Set();
 
@@ -692,6 +709,9 @@ timelineRebuildSimulation = () => {
 	nodes.forEach(d => {
 		edgeMap.set(d.id, tmpEdgeMap.get(d.id) || []);
 	});
+
+	maxDegree = 0;
+	updateOrphans();
 	updateNodeSprites();
 };
 
@@ -939,7 +959,7 @@ draw = (t) => {
 		timelineRebuildSimulation();
 
 		// Update fade alpha for visible nodes
-		const cutoffDate = timelineMinDate + (timelineDateRange * timelinePosition);
+		const cutoffDate = getTimelineCutoffDate(timelinePosition);
 		const fadeRange = timelineDateRange * 0.05;
 
 		nodes.forEach(d => {
@@ -953,10 +973,10 @@ draw = (t) => {
 			};
 		});
 
-		const dateLabel = cutoffDate > 0 ? formatTimelineDate(cutoffDate) : '';
 		send('onTimelineUpdate', {
 			position: timelinePosition,
-			dateLabel,
+			dateLabel: cutoffDate > 0 ? formatTimelineDate(cutoffDate) : '',
+			cutoffDate,
 			isPlaying: timelinePlaying,
 		});
 

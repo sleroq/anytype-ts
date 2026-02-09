@@ -42,7 +42,11 @@
 
 		.dateLabel {
 			@include text-small; color: var(--color-text-secondary); flex-shrink: 0;
-			min-width: 80px; text-align: right; white-space: nowrap;
+			min-width: 90px; text-align: right; white-space: nowrap;
+			font-variant-numeric: tabular-nums;
+
+			number-flow-react { display: inline; --number-flow-char-height: 1.2em; --number-flow-mask-height: 0.15em; }
+			.separator { margin: 0px 1px; }
 		}
 	}
 }

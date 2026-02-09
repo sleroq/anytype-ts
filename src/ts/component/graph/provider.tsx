@@ -563,7 +563,7 @@ const Graph = observer(forwardRef<GraphRefProps, Props>(({
 			case 'onTimelineUpdate': {
 				$(window).trigger(`timelineUpdate.${id}`, {
 					position: data.position,
-					dateLabel: data.dateLabel,
+					cutoffDate: data.cutoffDate,
 					isPlaying: data.isPlaying,
 				});
 				break;

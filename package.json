@@ -106,6 +106,7 @@
 		"@emoji-mart/data": "^1.2.1",
 		"@excalidraw/excalidraw": "^0.17.6",
 		"@mermaid-js/layout-elk": "^0.2.0",
+		"@number-flow/react": "^0.5.11",
 		"@sentry/browser": "^7.39.0",
 		"@sentry/cli": "^2.18.1",
 		"@sindresorhus/slugify": "^3.0.0",
