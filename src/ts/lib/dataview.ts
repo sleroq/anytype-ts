@@ -662,6 +662,15 @@ class Dataview {
 			};
 
 			let value = filter.value;
+
+			if (Relation.isArrayType(relation.format)) {
+				if (Array.isArray(value)) {
+					value = value.map(it => this.valueTemplateMapper(it, { rootId }));
+				} else {
+					value = this.valueTemplateMapper(value, { rootId });
+				};
+			};
+
 			if (Relation.isDate(relation.format)) {
 				value = Relation.getTimestampForQuickOption(filter.value, filter.quickOption);
 			};
