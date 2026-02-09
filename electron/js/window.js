@@ -533,14 +533,24 @@ class WindowManager {
 		};
 	};
 
-	closeOtherTabs (win, id) {
+	closeOtherTabs (win, id, forced) {
 		id = String(id || '');
 
 		if (!id || !win.views) {
 			return;
 		};
 
-		const views = win.views.filter(it => (it.id != id) && !(it.data && it.data.isPinned));
+		const views = win.views.filter(it => {
+			if (it.id == id) {
+				return false;
+			};
+
+			if (!forced && it.data && it.data.isPinned) {
+				return false;
+			};
+
+			return true;
+		});
 
 		views.forEach(view => {
 			this.removeTab(win, view.id, false);
@@ -572,6 +582,7 @@ class WindowManager {
 		win.views.splice(lastPinnedIndex + 1, 0, view);
 
 		this.sendUpdateTabs(win);
+		this.updateTabBarVisibility(win);
 	};
 
 	unpinTab (win, id) {
@@ -597,6 +608,7 @@ class WindowManager {
 		win.views.splice(lastPinnedIndex + 1, 0, view);
 
 		this.sendUpdateTabs(win);
+		this.updateTabBarVisibility(win);
 	};
 
 	sendUpdateTabs (win) {

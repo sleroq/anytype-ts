@@ -671,8 +671,8 @@ class Api {
 		WindowManager.removeTab(win, id, updateActive);
 	};
 
-	closeOtherTabs (win, id) {
-		WindowManager.closeOtherTabs(win, id);
+	closeOtherTabs (win, id, forced) {
+		WindowManager.closeOtherTabs(win, id, forced);
 	};
 
 	pinTab (win, id) {

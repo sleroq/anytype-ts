@@ -382,7 +382,7 @@ class MenuManager {
 
 				Separator,
 
-				{ label: Util.translate('electronMenuDevTools'), accelerator: 'Alt+CmdOrCtrl+I', click: () => this.getView().webContents.toggleDevTools() },
+				{ label: Util.translate('electronMenuDevTools'), accelerator: 'Alt+CmdOrCtrl+I', click: () => this.getView()?.webContents.toggleDevTools() },
 			]
 		});
 
