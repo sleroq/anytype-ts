@@ -110,6 +110,8 @@ class UtilObject {
 		return {
 			title: U.Object.name(object, true),
 			icon: U.Graph.imageSrc(object) || this.defaultIcon(object.layout, object.type, 100),
+			spaceIcon: U.Graph.imageSrc(spaceview) || this.defaultIcon(spaceview?.layout, spaceview?.type, 100),
+			spaceId: object.spaceId || S.Common.space || '',
 			layout: object.layout,
 			isImage: object.iconImage,
 			uxType: spaceview?.uxType,
@@ -188,6 +190,12 @@ class UtilObject {
 		};
 
 		param = this.checkParam(param);
+
+		if (S.Common.isPinned) {
+			const route = this.route(object);
+			Renderer.send('openRouteInTab', route, this.getTabData(object));
+			return;
+		};
 
 		keyboard.setSource(null);
 		U.Router.go(this.route(object), param);

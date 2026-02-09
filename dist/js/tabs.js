@@ -189,27 +189,24 @@ $(() => {
 
 		// Start from first unpinned tab, or add button if all tabs are pinned
 		const startEl = unpinnedTabs.first().length ? unpinnedTabs.first() : addTab;
-		const endEl = addTab.length ? addTab : unpinnedTabs.last();
 
-		if (!startEl.length || !endEl.length) {
+		if (!startEl.length) {
 			tabsBg.css({ width: 0 });
 			return;
 		};
 
 		const containerOffset = container.offset();
 		const startOffset = startEl.offset();
-		const endOffset = endEl.offset();
 
-		if (!containerOffset || !startOffset || !endOffset) {
+		if (!containerOffset || !startOffset) {
 			return;
 		};
 
 		const left = startOffset.left - containerOffset.left;
-		const right = (endOffset.left + endEl.outerWidth()) - containerOffset.left;
 
 		tabsBg.css({
-			left: left,
-			width: right - left,
+			left,
+			width: container.outerWidth() - left,
 		});
 	};
 
@@ -218,11 +215,13 @@ $(() => {
 		item.data = item.data || {};
 
 		const title = String(item.data.title || 'New tab');
-		const icon = String(item.data.icon || '');
+		const isPinned = Boolean(item.data.isPinned);
+		const icon = isPinned
+			? String(item.data.spaceIcon || item.data.icon || '')
+			: String(item.data.icon || '');
 		const layout = Number(item.data.layout) || 0;
 		const uxType = Number(item.data.uxType) || 0;
 		const isImage = Boolean(item.data.isImage);
-		const isPinned = Boolean(item.data.isPinned);
 
 		const cn = [ 'tab' ];
 		if (isPinned) {

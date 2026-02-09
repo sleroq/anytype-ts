@@ -430,11 +430,14 @@ class Keyboard {
 				this.shortcut(`space${i}`, e, () => {
 					const spaces = U.Menu.getVaultItems();
 					const item = spaces[id];
-	
+
 					if (!item) {
 						return;
 					};
 
+					if (S.Common.isPinned) {
+						Renderer.send('openSpaceInTab', item.targetSpaceId, item.uxType);
+					} else
 					if (item.targetSpaceId != S.Common.space) {
 						U.Router.switchSpace(item.targetSpaceId, '', true, {}, false);
 					} else {
