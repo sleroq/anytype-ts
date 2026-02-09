@@ -111,11 +111,10 @@ class UtilObject {
 			title: U.Object.name(object, true),
 			icon: U.Graph.imageSrc(object) || this.defaultIcon(object.layout, object.type, 100),
 			spaceIcon: U.Graph.imageSrc(spaceview) || this.defaultIcon(spaceview?.layout, spaceview?.type, 100),
-			spaceId: object.spaceId || S.Common.space || '',
+			spaceId: String(object.spaceId || S.Common.space || ''),
 			layout: object.layout,
 			isImage: object.iconImage,
 			uxType: spaceview?.uxType,
-			spaceId: spaceview?.targetSpaceId || '',
 			route,
 		};
 	};
