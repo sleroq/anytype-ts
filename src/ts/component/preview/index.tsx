@@ -12,10 +12,14 @@ const PreviewIndex = observer(forwardRef(() => {
 	const nodeRef = useRef(null);
 	const polygonRef = useRef(null);
 	const { preview } = S.Common;
-	const { type, markType, target, object: initialObject, marks, range, noUnlink, noEdit, x, y, width, height, onChange, withPlural } = preview;
+	const { type, markType, target, object: initialObject, marks, range, noUnlink, noEdit, x, y, width, height, onChange, withPlural, classNameWrap } = preview;
 	const [ object, setObject ] = useState(null);
 	const cn = [ 'previewWrapper' ];
 	const win = $(window);
+
+	if (classNameWrap) {
+		cn.push(classNameWrap);
+	};
 
 	const onClick = (e: MouseEvent) => {
 		if (e.button) {

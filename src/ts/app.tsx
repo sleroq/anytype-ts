@@ -214,6 +214,7 @@ const App: FC = () => {
 
 			Preview.previewShow({
 				rect: { x: data.offsetLeft, y: 0, width: data.width, height: 0 },
+				classNameWrap: 'isTab',
 				object: spaceview,
 				target: spaceview.id,
 				noUnlink: true,

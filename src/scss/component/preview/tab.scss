@@ -1,0 +1,8 @@
+
+.previewTab { padding: 4px 8px; }
+.previewTab {
+    .previewHeader { display: flex; gap: 0px 2px; align-items: center; }
+    .previewHeader {
+        .iconObject { flex-shrink: 0; }
+    }
+}

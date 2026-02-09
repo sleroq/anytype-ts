@@ -17,7 +17,7 @@ const PreviewTab = observer(forwardRef<{}, Props>((props, ref) => {
 		position,
 	} = props;
 
-	const cn = [ 'previewDefault' ];
+	const cn = [ 'previewTab' ];
 
 	useEffect(position);
 

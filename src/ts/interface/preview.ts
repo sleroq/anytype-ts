@@ -25,6 +25,7 @@ export interface PreviewLink {
 export interface Preview {
 	type?: PreviewType,
 	markType?: I.MarkType;
+	classNameWrap?: string;
 	target?: string; /** object ID or URL */
 	object?: any;
 	element?: JQuery<HTMLElement>;
