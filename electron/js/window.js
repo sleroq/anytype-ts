@@ -165,7 +165,7 @@ class WindowManager {
 		win.on('enter-full-screen', () => MenuManager.initMenu());
 		win.on('leave-full-screen', () => MenuManager.initMenu());
 		win.on('resize', () => {
-			const { width, height } = is.linux ? win.getContentBounds() : win.getBounds();
+			const { width, height } = this.getBounds(win);
 
 			const activeView = Util.getActiveView(win);
 			if (activeView) {
@@ -405,7 +405,7 @@ class WindowManager {
 			return null;
 		};
 
-		return is.linux ? win.getContentBounds() : win.getBounds();
+		return win.getContentBounds();
 	};
 
 	setActiveTab (win, id) {
