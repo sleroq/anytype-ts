@@ -2,7 +2,7 @@ import React, { forwardRef, useRef, useEffect, useState } from 'react';
 import $ from 'jquery';
 import { observer } from 'mobx-react';
 import { I, C, S, U, J, keyboard, sidebar } from 'Lib';
-import { Header, Footer, GraphProvider, Loader } from 'Component';
+import { Header, Footer, GraphProvider, GraphTimeline, Loader } from 'Component';
 
 const PageMainGraph = observer(forwardRef<I.PageRef, I.PageComponent>((props, ref) => {
 
@@ -136,15 +136,20 @@ const PageMainGraph = observer(forwardRef<I.PageRef, I.PageComponent>((props, re
 			<Loader id="loader" />
 
 			<div className="wrapper">
-				<GraphProvider 
+				<GraphProvider
 					key="graph"
-					{...props} 
-					ref={graphRef} 
+					{...props}
+					ref={graphRef}
 					id="global"
-					rootId={rootId} 
+					rootId={rootId}
 					data={data}
 					storageKey={J.Constant.graphId.global}
 					load={load}
+				/>
+				<GraphTimeline
+					id="global"
+					graphRef={graphRef}
+					storageKey={J.Constant.graphId.global}
 				/>
 			</div>
 

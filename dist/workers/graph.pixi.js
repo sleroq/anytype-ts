@@ -96,6 +96,21 @@ let borderRadius = 0;
 let lineWidth = 0;
 let lineWidth3 = 0;
 
+// Timeline state
+let timelineActive = false;
+let timelinePlaying = false;
+let timelinePosition = 0;
+let timelineSpeed = 1;
+let timelineSortedNodes = [];
+let timelineMinDate = 0;
+let timelineMaxDate = 0;
+let timelineDateRange = 0;
+let timelineLastTick = 0;
+let timelineVisibleNodeIds = null;
+let timelineAllNodes = null;
+let timelineAllEdges = null;
+const TIMELINE_DURATION = 15000;
+
 // PixiJS objects
 let app = null;
 let edgesGraphics = null;
@@ -439,6 +454,14 @@ updateForces = () => {
 
 	updateClusters();
 	updateNodeSprites();
+
+	if (timelineActive) {
+		timelineAllNodes = nodes.slice();
+		timelineAllEdges = edges.slice();
+		buildTimelineSortedNodes();
+		timelineRebuildSimulation();
+	};
+
 	redraw();
 };
 
@@ -503,6 +526,233 @@ updateSettings = (param) => {
 updateTheme = ({ theme, colors }) => {
 	data.colors = colors;
 	initTheme(theme);
+	redraw();
+};
+
+/**
+ * Builds the sorted node list for timeline animation.
+ */
+buildTimelineSortedNodes = () => {
+	const source = timelineAllNodes || nodes;
+
+	timelineSortedNodes = source
+		.filter(d => d.createdDate && (d.createdDate > 0))
+		.sort((a, b) => a.createdDate - b.createdDate);
+
+	if (timelineSortedNodes.length > 0) {
+		timelineMinDate = timelineSortedNodes[0].createdDate;
+		timelineMaxDate = timelineSortedNodes[timelineSortedNodes.length - 1].createdDate;
+		timelineDateRange = timelineMaxDate - timelineMinDate;
+	} else {
+		timelineMinDate = 0;
+		timelineMaxDate = 0;
+		timelineDateRange = 0;
+	};
+};
+
+/**
+ * Formats a unix timestamp (seconds) to "Mon DD, YYYY".
+ */
+formatTimelineDate = (timestamp) => {
+	if (!timestamp) {
+		return '';
+	};
+
+	const d = new Date(timestamp * 1000);
+	const months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
+
+	return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+};
+
+/**
+ * Starts timeline playback.
+ */
+timelineStart = ({ speed }) => {
+	timelineSpeed = speed || 1;
+	timelineActive = true;
+	timelinePlaying = true;
+	timelineLastTick = performance.now();
+
+	if (!timelineAllNodes) {
+		timelineAllNodes = nodes.slice();
+		timelineAllEdges = edges.slice();
+	};
+
+	buildTimelineSortedNodes();
+
+	if (timelinePosition >= 1) {
+		timelinePosition = 0;
+		timelineVisibleNodeIds = null;
+	};
+
+	timelineRebuildSimulation();
+	redraw();
+};
+
+/**
+ * Pauses timeline playback.
+ */
+timelinePause = () => {
+	timelinePlaying = false;
+	redraw();
+};
+
+/**
+ * Rebuilds the simulation with only timeline-visible nodes.
+ * Positions new nodes near connected visible nodes so they flow in naturally.
+ */
+timelineRebuildSimulation = () => {
+	if (!timelineAllNodes) {
+		return;
+	};
+
+	const cutoffDate = timelineMinDate + (timelineDateRange * timelinePosition);
+	const prevVisible = timelineVisibleNodeIds;
+	const newVisible = new Set();
+
+	timelineAllNodes.forEach(d => {
+		const nodeDate = d.createdDate || 0;
+
+		if ((nodeDate > 0) && (nodeDate <= cutoffDate)) {
+			newVisible.add(d.id);
+		};
+	});
+
+	// Check if visible set changed
+	let changed = !prevVisible || (newVisible.size !== prevVisible.size);
+
+	if (!changed) {
+		for (const id of newVisible) {
+			if (!prevVisible.has(id)) {
+				changed = true;
+				break;
+			};
+		};
+	};
+
+	if (!changed) {
+		return;
+	};
+
+	// Position new nodes near connected visible nodes
+	timelineAllNodes.forEach(d => {
+		if (!newVisible.has(d.id) || (prevVisible && prevVisible.has(d.id))) {
+			return;
+		};
+
+		let placed = false;
+
+		for (let i = 0; i < timelineAllEdges.length; i++) {
+			const e = timelineAllEdges[i];
+			const sid = typeof e.source === 'object' ? e.source.id : e.source;
+			const tid = typeof e.target === 'object' ? e.target.id : e.target;
+			let otherId = null;
+
+			if ((sid === d.id) && newVisible.has(tid)) {
+				otherId = tid;
+			} else
+			if ((tid === d.id) && newVisible.has(sid)) {
+				otherId = sid;
+			};
+
+			if (otherId) {
+				const other = timelineAllNodes.find(n => n.id === otherId);
+
+				if (other && (other.x !== undefined)) {
+					d.x = other.x + (Math.random() - 0.5) * 30;
+					d.y = other.y + (Math.random() - 0.5) * 30;
+					d.vx = 0;
+					d.vy = 0;
+					placed = true;
+					break;
+				};
+			};
+		};
+
+		if (!placed && (d.x === undefined)) {
+			d.x = width / 2 + (Math.random() - 0.5) * 100;
+			d.y = height / 2 + (Math.random() - 0.5) * 100;
+		};
+	});
+
+	timelineVisibleNodeIds = newVisible;
+
+	nodes = timelineAllNodes.filter(d => newVisible.has(d.id));
+	edges = timelineAllEdges.filter(d => {
+		const sid = typeof d.source === 'object' ? d.source.id : d.source;
+		const tid = typeof d.target === 'object' ? d.target.id : d.target;
+
+		return newVisible.has(sid) && newVisible.has(tid);
+	});
+
+	simulation.nodes(nodes);
+	simulation.force('link').id(d => d.id).links(edges);
+	simulation.alpha(0.3).restart();
+
+	nodeMap = getNodeMap();
+	const tmpEdgeMap = getEdgeMap();
+	edgeMap.clear();
+	nodes.forEach(d => {
+		edgeMap.set(d.id, tmpEdgeMap.get(d.id) || []);
+	});
+	updateNodeSprites();
+};
+
+/**
+ * Seeks the timeline to a specific position.
+ */
+timelineSeek = ({ position }) => {
+	timelineActive = true;
+	timelinePosition = Math.max(0, Math.min(1, position));
+
+	if (!timelineAllNodes) {
+		timelineAllNodes = nodes.slice();
+		timelineAllEdges = edges.slice();
+	};
+
+	if (!timelineSortedNodes.length) {
+		buildTimelineSortedNodes();
+	};
+
+	timelineRebuildSimulation();
+	redraw();
+};
+
+/**
+ * Resets the timeline and restores full graph visibility.
+ */
+timelineReset = () => {
+	timelineActive = false;
+	timelinePlaying = false;
+	timelinePosition = 0;
+	timelineSortedNodes = [];
+	timelineVisibleNodeIds = null;
+
+	if (timelineAllNodes) {
+		nodes = timelineAllNodes;
+		edges = timelineAllEdges;
+
+		nodes.forEach(d => {
+			delete d._timelineVisible;
+			delete d._timelineAlpha;
+		});
+
+		simulation.nodes(nodes);
+		simulation.force('link').id(d => d.id).links(edges);
+		simulation.alpha(0.3).restart();
+
+		nodeMap = getNodeMap();
+		const tmpEdgeMap = getEdgeMap();
+		edgeMap.clear();
+		nodes.forEach(d => {
+			edgeMap.set(d.id, tmpEdgeMap.get(d.id) || []);
+		});
+		updateNodeSprites();
+	};
+
+	timelineAllNodes = null;
+	timelineAllEdges = null;
+
 	redraw();
 };
 
@@ -672,9 +922,56 @@ draw = (t) => {
 		edgeLabels.clear();
 	};
 
+	// Timeline animation tick
+	if (timelineActive) {
+		const now = performance.now();
+
+		if (timelinePlaying) {
+			const delta = (now - timelineLastTick) / TIMELINE_DURATION * timelineSpeed;
+			timelinePosition = Math.min(1, timelinePosition + delta);
+
+			if (timelinePosition >= 1) {
+				timelinePlaying = false;
+				send('onTimelineComplete', {});
+			};
+		};
+
+		timelineLastTick = now;
+
+		// Rebuild simulation if visible set changed
+		timelineRebuildSimulation();
+
+		// Update fade alpha for visible nodes
+		const cutoffDate = timelineMinDate + (timelineDateRange * timelinePosition);
+		const fadeRange = timelineDateRange * 0.05;
+
+		nodes.forEach(d => {
+			const nodeDate = d.createdDate || 0;
+			d._timelineVisible = true;
+
+			if ((fadeRange > 0) && ((cutoffDate - nodeDate) < fadeRange)) {
+				d._timelineAlpha = Math.max(0.1, (cutoffDate - nodeDate) / fadeRange);
+			} else {
+				d._timelineAlpha = 1;
+			};
+		});
+
+		const dateLabel = cutoffDate > 0 ? formatTimelineDate(cutoffDate) : '';
+		send('onTimelineUpdate', {
+			position: timelinePosition,
+			dateLabel,
+			isPlaying: timelinePlaying,
+		});
+
+		if (timelinePlaying) {
+			redraw();
+		};
+	};
+
 	const radius = 5.7 / transform.k;
 
 	edges.forEach(d => {
+
 		if (checkNodeInViewport(d.target) || checkNodeInViewport(d.source)) {
 			drawEdge(d, radius, radius * 1.3, settings.marker && d.isDouble, settings.marker);
 		};
@@ -885,6 +1182,12 @@ drawArrowHead = (x, y, angle, width, height, color, alpha) => {
  * @param {Object} d - The node object.
  */
 drawNode = (d) => {
+	// Timeline visibility override
+	if (timelineActive && !d._timelineVisible) {
+		hideNode(d);
+		return;
+	};
+
 	const radius = getRadius(d);
 	const img = images[d.src];
 	const texture = images[d.src + '_texture'];
@@ -897,7 +1200,7 @@ drawNode = (d) => {
 	let colorNode = parseColor(iconColors.bg?.[opt] || data.colors.node);
 	let colorLine = null;
 	let lw = 0;
-	let alpha = 1;
+	let alpha = timelineActive ? (d._timelineAlpha !== undefined ? d._timelineAlpha : 1) : 1;
 
 	if (isHovering) {
 		alpha = hoverAlpha;

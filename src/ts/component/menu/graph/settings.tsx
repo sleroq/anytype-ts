@@ -182,7 +182,8 @@ const MenuGraphSettings = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) =>
 					{ id: 'icon', name: translate('menuGraphSettingsIcons') },
 					{ id: 'preview', name: translate('menuGraphSettingsPreview') },
 					{ id: 'cluster', name: translate('menuGraphSettingsCluster') },
-				] 
+					{ id: 'timeline', name: translate('menuGraphSettingsTimeline') },
+				]
 			},
 			{ 
 				name: translate('menuGraphSettingsShowOnGraph'), children: [
