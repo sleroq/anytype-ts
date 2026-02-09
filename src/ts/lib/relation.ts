@@ -87,10 +87,10 @@ class Relation {
 			case I.RelationType.Email:
 			case I.RelationType.Phone: {
 				ret = [
-					{ id: I.FilterCondition.Equal,		 name: translate('filterConditionEqual') },
-					{ id: I.FilterCondition.NotEqual,	 name: translate('filterConditionNotEqual') },
 					{ id: I.FilterCondition.Like,		 name: translate('filterConditionLike') },
 					{ id: I.FilterCondition.NotLike,	 name: translate('filterConditionNotLike') },
+					{ id: I.FilterCondition.Equal,		 name: translate('filterConditionEqual') },
+					{ id: I.FilterCondition.NotEqual,	 name: translate('filterConditionNotEqual') },
 					{ id: I.FilterCondition.Empty,		 name: translate('filterConditionEmpty') },
 					{ id: I.FilterCondition.NotEmpty,	 name: translate('filterConditionNotEmpty') },
 				];
