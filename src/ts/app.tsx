@@ -208,6 +208,9 @@ const App: FC = () => {
 
 		Renderer.on('tab-show-tooltip', (e: any, data: any) => {
 			const spaceview = U.Space.getSpaceviewBySpaceId(data.spaceId);
+
+			console.log('SHOW ', data)
+			console.log('SPACE VIEW: ', spaceview)
 			if (!spaceview) {
 				return;
 			};
