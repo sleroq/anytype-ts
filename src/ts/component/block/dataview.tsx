@@ -21,6 +21,7 @@ import ViewList from './dataview/view/list';
 import ViewCalendar from './dataview/view/calendar';
 import ViewGraph from './dataview/view/graph';
 import ViewTimeline from './dataview/view/timeline';
+import { format } from 'path';
 
 interface Props extends I.BlockComponent {
 	isInline?: boolean;
@@ -1077,12 +1078,15 @@ const BlockDataview = observer(forwardRef<I.BlockRef, Props>((props, ref) => {
 	const onFilterAdd = (item: any, callBack?: () => void) => {
 		const view = getView();
 		const object = getTarget();
+		const relation = S.Record.getRelationByKey(item.relationKey);
 
 		Dataview.addFilter(rootId, block.id, view.id, item, () => {
 			callBack?.();
 
 			analytics.event('AddFilter', {
 				condition: item.condition,
+				format: relation?.format,
+				relationKey: item.relationKey,
 				objectType: object.type,
 				embedType: analytics.embedType(isInline),
 			});

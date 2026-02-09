@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { observer } from 'mobx-react';
 import { I, S, U, J, C, translate, analytics, Relation, Dataview } from 'Lib';
 import { Select, Icon, Input, MenuItemVertical, Label, OptionSelect, CalendarSelect, TabSwitch } from 'Component';
+import { format } from 'path';
 
 const SUB_ID_PREFIX = 'filterOptionList';
 
@@ -196,6 +197,8 @@ const MenuDataviewFilterValues = observer(forwardRef<I.MenuRef, I.Menu>((props, 
 
 			analytics.event('ChangeFilterValue', {
 				condition: item.condition,
+				relationKey: item.relationKey,
+				format: rel.format,
 				objectType: object.type,
 				embedType: analytics.embedType(isInline)
 			});

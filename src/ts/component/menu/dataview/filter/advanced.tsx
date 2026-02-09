@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { I, C, S, J, analytics, translate } from 'Lib';
 import { MenuItemVertical } from 'Component';
 import Group from 'Component/block/dataview/filters/group';
+import relation from 'json/relation';
 
 const MenuFilterAdvanced = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 
@@ -47,6 +48,7 @@ const MenuFilterAdvanced = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) =
 		};
 
 		const object = getTarget();
+		const rel = S.Record.getRelationByKey(filter.relationKey);
 
 		C.BlockDataviewFilterRemove(rootId, blockId, view.id, [ filter.id ], () => {
 			loadData(view.id, 0);
@@ -56,6 +58,8 @@ const MenuFilterAdvanced = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) =
 
 		analytics.event('RemoveFilter', {
 			objectType: object.type,
+			relationKey: filter.relationKey, 
+			format: rel?.format,
 			embedType: analytics.embedType(isInline)
 		});
 	};
