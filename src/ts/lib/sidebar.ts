@@ -489,10 +489,6 @@ class Sidebar {
 	 * @param {boolean} animate - Whether to animate the resize.
 	 */
 	resizePage (isPopup: boolean, widthLeft: number, widthRight: number, animate: boolean): void {
-		if (animate) {
-			console.trace();
-		};
-
 		if (this.isAnimating) {
 			return;
 		};
