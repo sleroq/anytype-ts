@@ -1427,6 +1427,9 @@ const EditorPage = observer(forwardRef<I.BlockRef, Props>((props, ref) => {
 
 					if (canOutdent) {
 						onTabBlock(e, range, true);	
+					} else 
+					if (block.isTextParagraph()) {
+						ids.length ? blockRemove(block) : blockMerge(block, -1, length);
 					} else {
 						C.BlockListTurnInto(rootId, [ block.id ], I.TextStyle.Paragraph);
 					};

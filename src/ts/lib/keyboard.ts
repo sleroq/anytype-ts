@@ -201,6 +201,13 @@ class Keyboard {
 			sidebar.leftPanelToggle();
 		});
 
+		this.shortcut('toggleSidebarAndWidgets', e, () => {
+			e.preventDefault();
+
+			sidebar.leftPanelToggle();
+			sidebar.leftPanelSubPageToggle('widget');
+		});
+
 		if (this.isMainEditor()) {
 			this.shortcut('tableOfContents', e, () => {
 				e.preventDefault();
