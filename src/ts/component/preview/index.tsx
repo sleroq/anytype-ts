@@ -1,7 +1,7 @@
 import React, { forwardRef, useState, useEffect, useRef, MouseEvent } from 'react';
 import $ from 'jquery';
 import { observer } from 'mobx-react';
-import { PreviewLink, PreviewObject, PreviewDefault } from 'Component';
+import { PreviewLink, PreviewObject, PreviewDefault, PreviewTab } from 'Component';
 import { I, S, U, Preview, Mark, translate, Action } from 'Lib';
 
 const OFFSET_Y = 8;
@@ -196,6 +196,11 @@ const PreviewIndex = observer(forwardRef(() => {
 			};
 
 			content = <PreviewDefault {...props} />;
+			break;
+		};
+
+		case I.PreviewType.Tab: {
+			content = <PreviewTab object={initialObject} position={position} />;
 			break;
 		};
 	};

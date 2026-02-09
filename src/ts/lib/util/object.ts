@@ -113,6 +113,7 @@ class UtilObject {
 			layout: object.layout,
 			isImage: object.iconImage,
 			uxType: spaceview?.uxType,
+			spaceId: spaceview?.targetSpaceId || '',
 			route,
 		};
 	};

@@ -860,7 +860,7 @@ class UtilData {
 	 * @param {string} text - The text to set as the tab title.
 	 */
 	setTabTitleText(text: string) {
-		Renderer.send('updateTab', S.Common.tabId, { title: text, icon: '', layout: I.ObjectLayout.Page });
+		Renderer.send('updateTab', S.Common.tabId, { title: text, icon: '', layout: I.ObjectLayout.Page, });
 	};
 
 	/**

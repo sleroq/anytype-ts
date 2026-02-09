@@ -204,6 +204,29 @@ const App: FC = () => {
 		Renderer.on('power-event', (e: any, state: string) => {
 			C.AppSetDeviceState(state == 'suspend' ? I.AppDeviceState.Background : I.AppDeviceState.Foreground);
 		});
+
+		Renderer.on('tab-show-tooltip', (e: any, data: any) => {
+			const spaceview = U.Space.getSpaceviewBySpaceId(data.spaceId);
+			if (!spaceview) {
+				return;
+			};
+
+			Preview.previewShow({
+				rect: { x: data.offsetLeft, y: 0, width: data.width, height: 0 },
+				object: spaceview,
+				target: spaceview.id,
+				noUnlink: true,
+				noEdit: true,
+				passThrough: true,
+				noAnimation: true,
+				delay: 0,
+				type: I.PreviewType.Tab,
+			});
+		});
+
+		Renderer.on('tab-hide-tooltip', () => {
+			Preview.previewHide(true);
+		});
 	};
 	
 	const unregisterIpcEvents = () => {
@@ -229,6 +252,8 @@ const App: FC = () => {
 		Renderer.remove('pin-check');
 		Renderer.remove('reload');
 		Renderer.remove('power-event');
+		Renderer.remove('tab-show-tooltip');
+		Renderer.remove('tab-hide-tooltip');
 	};
 
 	const onInit = (data: any) => {

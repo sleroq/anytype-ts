@@ -726,6 +726,14 @@ class Api {
 		WindowManager.reorderTabs(win, tabIds);
 	};
 
+	tabShowTooltip (win, data) {
+		Util.sendToActiveTab(win, 'tab-show-tooltip', data);
+	};
+
+	tabHideTooltip (win) {
+		Util.sendToActiveTab(win, 'tab-hide-tooltip');
+	};
+
 	setTabsDimmer (win, show) {
 		Util.send(win, 'set-tabs-dimmer', show);
 	};

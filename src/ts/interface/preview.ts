@@ -5,6 +5,7 @@ export enum PreviewType {
 	Default	 = 1,
 	Link	 = 2,
 	Object	 = 3,
+	Tab 	 = 4,
 };
 
 export enum PreviewSize {
