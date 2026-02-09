@@ -662,7 +662,7 @@ class Dataview {
 			};
 
 			let value = filter.value;
-			if (Relation.isDate(relation.type)) {
+			if (Relation.isDate(relation.format)) {
 				value = Relation.getTimestampForQuickOption(filter.value, filter.quickOption);
 			};
 			

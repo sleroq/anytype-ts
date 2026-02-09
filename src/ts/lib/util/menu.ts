@@ -12,7 +12,6 @@ interface SpaceContextParam {
 	withPin?: boolean;
 	withDelete?: boolean;
 	withOpenNewTab?: boolean;
-	withSearch?: boolean;
 	noShare?: boolean;
 	route: string;
 };
@@ -909,7 +908,7 @@ class UtilMenu {
 		param = param || {};
 
 		const { targetSpaceId, uxType } = space;
-		const { isSharePage, noManage, noMembers, withPin, withDelete, withOpenNewTab, withSearch, noShare, route } = param;
+		const { isSharePage, noManage, noMembers, withPin, withDelete, withOpenNewTab, noShare, route } = param;
 		const isLoading = space.isAccountLoading || space.isLocalLoading;
 		const isOwner = U.Space.isMyOwner(targetSpaceId);
 		const participants = U.Space.getParticipantsList([ I.ParticipantStatus.Active ]);
@@ -1053,10 +1052,6 @@ class UtilMenu {
 				delete: [],
 			};
 
-			if (withSearch) {
-				sections.search.push({ id: 'searchChat', icon: 'search', name: translate('menuObjectSearchInChat'), caption: keyboard.getCaption('searchText') });
-			};
-
 			if (!noShare && inviteLink) {
 				sections.share = [
 					{ id: 'link', icon: 'copyLink', name: translate('menuSpaceContextCopyInviteLink') },
@@ -1125,6 +1120,11 @@ class UtilMenu {
 				};
 				options = options.concat(section);
 			});
+
+			const optionsWithoutDiv = options.filter(it => !it.isDiv);
+			if (optionsWithoutDiv.length <= 2) {
+				options = optionsWithoutDiv;
+			};
 
 			return options;
 		};

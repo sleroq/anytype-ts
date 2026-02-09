@@ -860,7 +860,15 @@ class UtilData {
 	 * @param {string} text - The text to set as the tab title.
 	 */
 	setTabTitleText(text: string) {
-		Renderer.send('updateTab', S.Common.tabId, { title: text, icon: '', layout: I.ObjectLayout.Page, });
+		const spaceview = U.Space.getSpaceview();
+
+		Renderer.send('updateTab', S.Common.tabId, {
+			title: text,
+			icon: '',
+			spaceIcon: U.Graph.imageSrc(spaceview) || U.Object.defaultIcon(spaceview?.layout, spaceview?.type, 100),
+			spaceId: S.Common.space || '',
+			layout: I.ObjectLayout.Page,
+		});
 	};
 
 	/**

@@ -161,7 +161,7 @@ const DataviewFilterGroup = observer(forwardRef<{}, Props>((props, ref) => {
 			<div className="head">
 				<Label text={operatorName} />
 			</div>
-		)
+		);
 	};
 
 	const getItems = () => {

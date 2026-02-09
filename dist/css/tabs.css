@@ -108,7 +108,7 @@ body.platform-win32.showMenuBar {
 
 		.icon { flex-shrink: 0; }
 		.icon.close { background-image: url('../img/icon/close.svg'); opacity: 0; }
-		.icon.object { width: 18px; height: 18px; background-size: cover; }
+		.icon.object { width: 18px; height: 18px; background-size: cover; border-radius: 2px; }
 		.icon.object.layout1,
 		.icon.object.layout10.uxType3.isImage,
 		.icon.object.layout10.uxType4.isImage,
@@ -147,12 +147,12 @@ body.platform-win32.showMenuBar {
 
 #tabsBackground {
 	height: 100%; background: var(--color-shape-tertiary); top: 0px; position: absolute;
-	border-radius: 16px; z-index: 0; pointer-events: none; -webkit-app-region: no-drag;
+	border-radius: 18px; z-index: 0; pointer-events: none; -webkit-app-region: no-drag;
 }
 
 #marker {
 	width: 200px; height: calc(100% - 4px); background: var(--color-bg-primary); left: 2px; top: 2px; position: absolute;
-	border-radius: 16px; z-index: 1; pointer-events: none; -webkit-app-region: no-drag;
+	border-radius: 18px; z-index: 1; pointer-events: none; -webkit-app-region: no-drag;
 }
 #marker.anim { transition: width, left 0.1s ease-in-out; }
 

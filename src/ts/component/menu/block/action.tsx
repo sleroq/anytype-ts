@@ -112,7 +112,7 @@ const MenuBlockAction = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 		let hasColor = true;
 		let hasBg = true;
 		let hasCommon = true;
-		let hasClipboard = true;
+		const hasClipboard = true;
 		let hasQuote = false;
 		
 		for (const id of blockIds) {

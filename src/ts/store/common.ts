@@ -65,6 +65,7 @@ class CommonStore {
 	public windowIsFocused = true;
 	public routeParam: any = {};
 	public openObjectIds: Map<string, Set<string>> = new Map();
+	public isPinnedValue = false;
 	public widgetSectionsValue: I.WidgetSectionParam[] = null;
 
 	public rightSidebarStateValue: { full: I.SidebarRightState, popup: I.SidebarRightState } = { 
@@ -155,6 +156,7 @@ class CommonStore {
 			vaultMessagesValue: observable,
 			vaultIsMinimalValue: observable,
 			gridTitleClickValue: observable,
+			isPinnedValue: observable,
 			widgetSectionsValue: observable,
 			recentEditModeValue: observable,
 			config: computed,
@@ -176,6 +178,7 @@ class CommonStore {
 			gridTitleClick: computed,
 			widgetSections: computed,
 			recentEditMode: computed,
+			isPinned: computed,
 			singleTab: computed,
 			autoDownload: computed,
 			gatewaySet: action,
@@ -206,6 +209,7 @@ class CommonStore {
 			widgetSectionsInit: action,
 			widgetSectionsSet: action,
 			recentEditModeSet: action,
+			isPinnedSet: action,
 			singleTabSet: action,
 			autoDownloadSet: action,
 		});
@@ -261,6 +265,10 @@ class CommonStore {
 
 	get fullscreen (): boolean {
 		return this.isFullScreen;
+	};
+
+	get isPinned (): boolean {
+		return this.isPinnedValue;
 	};
 
 	get singleTab (): boolean {
@@ -734,6 +742,10 @@ class CommonStore {
 	 * Sets the single tab mode.
 	 * @param {boolean} v - The single tab mode value.
 	 */
+	isPinnedSet (v: boolean) {
+		this.isPinnedValue = v;
+	};
+
 	singleTabSet (v: boolean) {
 		this.singleTabValue = v;
 	};

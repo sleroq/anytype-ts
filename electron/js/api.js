@@ -39,6 +39,8 @@ class Api {
 			route = tab?.data?.route || '';
 		};
 
+		const tab = tabId ? (win.views || []).find(it => it.id == tabId) : null;
+
 		return {
 			id: win.id,
 			dataPath: Util.dataPath(),
@@ -47,6 +49,7 @@ class Api {
 			isChild: win.isChild,
 			route,
 			isPinChecked: this.isPinChecked,
+			isPinned: tab?.data?.isPinned || false,
 			languages: win.webContents.session.availableSpellCheckerLanguages,
 			css: Util.getCss(),
 			activeTabId: win.activeTabId,
@@ -673,6 +676,14 @@ class Api {
 
 	closeOtherTabs (win, id, forced) {
 		WindowManager.closeOtherTabs(win, id, forced);
+	};
+
+	openRouteInTab (win, route, data) {
+		WindowManager.openRouteInTab(win, route, data);
+	};
+
+	openSpaceInTab (win, spaceId, uxType) {
+		WindowManager.openSpaceInTab(win, spaceId, uxType);
 	};
 
 	pinTab (win, id) {
