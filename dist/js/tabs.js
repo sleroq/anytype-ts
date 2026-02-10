@@ -24,6 +24,7 @@ $(() => {
 	let tooltipTimeout = 0;
 	let tooltipHideTimeout = 0;
 	let tooltipVisible = false;
+
 	const TOOLTIP_DELAY = 650;
 	const TOOLTIP_DELAY_SHORT = 50;
 
@@ -286,6 +287,7 @@ $(() => {
 			const data = {
 				spaceId: item.data.spaceId || '',
 				objectData: item.data.objectData || null,
+				isPinned: Boolean(item.data.isPinned),
 				offsetLeft: offset.left,
 				width: tab.outerWidth(),
 			};
