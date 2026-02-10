@@ -246,6 +246,7 @@
 					.icon.isPhone { background-image: url('~img/icon/dataview/filters/relation/phone0.svg'); }
 					.icon.isMultiselect { background-image: url('~img/icon/dataview/filters/relation/multiselect0.svg'); }
 					.icon.isObject { background-image: url('~img/icon/dataview/filters/relation/object0.svg'); }
+					.icon.arrow { width: 8px; height: 8px; background-image: url('~img/arrow/filterValue0.svg'); }
 
 					&.isActive { color: var(--color-system-accent-100); background-color: var(--color-system-selection); }
 					&.isActive {
@@ -264,6 +265,7 @@
 						.icon.isPhone { background-image: url('~img/icon/dataview/filters/relation/phone1.svg'); }
 						.icon.isMultiselect { background-image: url('~img/icon/dataview/filters/relation/multiselect1.svg'); }
 						.icon.isObject { background-image: url('~img/icon/dataview/filters/relation/object1.svg'); }
+						.icon.arrow { background-image: url('~img/arrow/filterValue1.svg'); }
 					}
 					&:hover, &.hover { background-color: var(--color-shape-highlight-medium); border-color: transparent; }
 

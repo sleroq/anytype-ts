@@ -251,7 +251,7 @@ const BlockDataviewFilters = observer(forwardRef<{}, Props>((props, ref) => {
 									readonly={isReadonly}
 								/>
 							);
-						}
+						};
 
 						return (
 							<Item
