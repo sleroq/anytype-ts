@@ -29,7 +29,7 @@ const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 	}, []);
 
 	useEffect(() => {
-		resize();
+		beforePosition();
 		setActive();
 	});
 
@@ -439,14 +439,13 @@ const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 		);
 	};
 
-	const resize = () => {
+	const beforePosition = () => {
 		const obj = $(`#${getId()} .content`);
 		const items = getItems();
 		const itemsHeight = items.reduce((res: number, current: any) => res + getRowHeight(current), 0);
 		const height = Math.max(HEIGHT_ITEM + 24, Math.min(400, itemsHeight + 24));
 
 		obj.css({ height });
-		position();
 	};
 
 	useImperativeHandle(ref, () => ({
@@ -456,6 +455,7 @@ const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 		getIndex: () => n.current,
 		setIndex: (i: number) => n.current = i,
 		onClick,
+		beforePosition,
 	}), []);
 
 	const items = getItems();

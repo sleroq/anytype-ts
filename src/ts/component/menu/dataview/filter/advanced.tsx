@@ -64,6 +64,9 @@ const MenuFilterAdvanced = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) =
 		});
 	};
 
+	const beforePosition = () => {
+	};
+
 	const filter = getAdvancedFilter();
 
 	useEffect(() => {
@@ -76,6 +79,7 @@ const MenuFilterAdvanced = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) =
 	}, []);
 
 	useEffect(() => {
+		beforePosition();
 		setActive();
 	});
 
@@ -85,6 +89,7 @@ const MenuFilterAdvanced = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) =
 		getItems: () => [],
 		getIndex: () => n.current,
 		setIndex: (i: number) => n.current = i,
+		beforePosition,
 	}), []);
 
 	if (!filter) {
