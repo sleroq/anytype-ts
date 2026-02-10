@@ -1597,7 +1597,7 @@ class UtilCommon {
 			noAnimation: true,
 			noOffset: true,
 			typeX: I.MenuDirection.Left,
-			tabObject: data.objectData ? { ...data.objectData, name: data.title } : null,
+			relatedObject: data.objectData ? { ...data.objectData, name: data.title } : null,
 			delay: 0,
 			type: I.PreviewType.Tab,
 		});

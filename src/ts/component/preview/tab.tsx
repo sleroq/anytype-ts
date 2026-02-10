@@ -25,14 +25,18 @@ const PreviewTab = observer(forwardRef<{}, Props>((props, ref) => {
 			return;
 		};
 
+		let cancelled = false;
+
 		objectRef.current = object;
 
 		U.Object.getById(object.id, { spaceId: spaceview.targetSpaceId }, (loaded: any) => {
-			if (loaded) {
+			if (loaded && !cancelled) {
 				objectRef.current = loaded;
 				setDummy(dummy + 1);
 			};
 		});
+
+		return () => { cancelled = true; };
 	}, [ object?.id ]);
 
 	useEffect(position);
