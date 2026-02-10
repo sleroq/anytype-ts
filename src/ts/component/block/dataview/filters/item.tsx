@@ -59,7 +59,6 @@ const DataviewFilterItem = observer(forwardRef<{}, Props>((props, ref) => {
 		conditionOptions = Relation.filterConditionsByType(relation.format, filter.value);
 	};
 
-	const isArrayType = Relation.isArrayType(relation.format);
 	const conditionOption: any = conditionOptions.find(it => it.id == condition) || {};
 	const filterOptions = Relation.filterQuickOptions(relation.format, conditionOption.id);
 	const filterOption: any = filterOptions.find(it => it.id == quickOption) || {};
@@ -169,7 +168,7 @@ const DataviewFilterItem = observer(forwardRef<{}, Props>((props, ref) => {
 				) : ''}
 			</div>
 
-			{isArrayType ? <Icon className="arrow" /> : ''}
+			<Icon className="arrow" />
 			{config.experimental ? <Icon className="delete" onClick={onRemove} /> : ''}
 		</div>
 	);

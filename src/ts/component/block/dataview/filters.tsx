@@ -232,6 +232,7 @@ const BlockDataviewFilters = observer(forwardRef<{}, Props>((props, ref) => {
 								<div className="content">
 									<Label className="name" text={sortTitle} />
 								</div>
+								<Icon className="arrow" />
 								{config.experimental ? <Icon className="delete" onClick={onSortRemove} /> : ''}
 							</div>
 							<div className="separator vertical" />

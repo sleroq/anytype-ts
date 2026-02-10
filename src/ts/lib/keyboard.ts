@@ -387,8 +387,7 @@ class Keyboard {
 			this.shortcut('toggleSidebarAndWidgets', e, () => {
 				e.preventDefault();
 
-				sidebar.leftPanelToggle(false, true);
-				sidebar.leftPanelSubPageToggle('widget', false, false);
+				sidebar.toggleBothPanels();
 			});
 
 			if (canWrite) {
