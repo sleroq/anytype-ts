@@ -250,7 +250,7 @@
 					&.isActive { color: var(--color-system-accent-100); background-color: var(--color-system-selection); }
 					&.isActive {
 						&:hover, &.hover { background-color: var(--color-system-drop-zone); }
-						.name { font-weight: 600; }
+						.name { font-weight: 500; }
 
 						.icon.advanced { background-image: url('~img/icon/dataview/filters/advanced1.svg'); }
 						.icon.isText { background-image: url('~img/icon/dataview/filters/relation/text1.svg'); }
