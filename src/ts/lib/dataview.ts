@@ -441,16 +441,11 @@ class Dataview {
 				break;
 			};
 
+			case I.RelationType.MultiSelect:
 			case I.RelationType.Select: {
+				value = Relation.getArrayValue(value);
 				filter.condition = value ? I.FilterCondition.ExactIn : I.FilterCondition.Empty;
 				filter.value = value ? value : null;
-				break;
-			};
-
-			case I.RelationType.MultiSelect: {
-				value = Relation.getArrayValue(value);
-				filter.condition = value.length ? I.FilterCondition.ExactIn : I.FilterCondition.Empty;
-				filter.value = value.length ? value : null;
 				break;
 			};
 		};
