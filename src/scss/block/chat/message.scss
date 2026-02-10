@@ -78,10 +78,15 @@
 
 		.textWrapper { padding: 0px; width: 100%; @include text-small; display: flex; flex-direction: column; overflow: hidden; }
 		.name { @include text-small; font-weight: 500; padding-left: 12px; }
-		.text { @include clamp3; }
-	}
-	.reply.withAttachment {
-		.text { @include text-overflow-nw; display: block; height: var(--line-height-small); }
+
+		:not(.withAttachment) {
+			.text { @include clamp3; }
+		}
+
+		&.withAttachment {
+			.text { @include text-overflow-nw; display: block; height: var(--line-height-small); }
+			.markuplink { white-space: normal; }
+		}
 	}
 
 	.attachments {
