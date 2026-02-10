@@ -115,6 +115,7 @@ class UtilObject {
 			layout: object.layout,
 			isImage: object.iconImage,
 			uxType: spaceview?.uxType,
+			objectData: { id: object.id, type: object.type, layout: object.layout },
 			route,
 		};
 	};

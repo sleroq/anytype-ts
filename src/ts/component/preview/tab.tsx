@@ -1,9 +1,10 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { observer } from 'mobx-react';
 import { ObjectName, IconObject } from 'Component';
+import { U } from 'Lib';
 
 interface Props {
-	id?: string;
+	spaceview?: any;
 	object?: any;
 	position?: () => void;
 };
@@ -11,21 +12,43 @@ interface Props {
 const PreviewTab = observer(forwardRef<{}, Props>((props, ref) => {
 
 	const {
-		id = '',
-		object = {},
+		spaceview = {},
+		object,
 		position,
 	} = props;
 
-	const cn = [ 'previewTab' ];
+	const [ dummy, setDummy ] = useState(0);
+	const objectRef = useRef(object);
+
+	useEffect(() => {
+		if (!object?.id) {
+			return;
+		};
+
+		objectRef.current = object;
+
+		U.Object.getById(object.id, { spaceId: spaceview.targetSpaceId }, (loaded: any) => {
+			if (loaded) {
+				objectRef.current = loaded;
+				setDummy(dummy + 1);
+			};
+		});
+	}, [ object?.id ]);
 
 	useEffect(position);
 
 	return (
-		<div id={id} className={cn.join(' ')} data-id={object?.id}>
+		<div className="previewTab">
 			<div className="previewHeader">
-				<IconObject object={object} />
-				<ObjectName object={object} withLatex={true} />
+				<IconObject object={spaceview} />
+				<ObjectName object={spaceview} />
 			</div>
+			{object ? (
+				<div className="previewObject">
+					<IconObject object={objectRef.current} />
+					<ObjectName object={objectRef.current} />
+				</div>
+			) : null}
 		</div>
 	);
 

@@ -1,8 +1,10 @@
 
-.previewTab { padding: 4px 8px; }
+.previewTab { padding: 4px 8px; display: flex; flex-direction: column; gap: 4px; }
 .previewTab {
-    .previewHeader { display: flex; gap: 0px 6px; align-items: center; }
-    .previewHeader {
+    .previewHeader,
+    .previewObject { display: flex; gap: 0px 6px; align-items: center; height: auto; }
+    .previewHeader,
+    .previewObject {
         .iconObject { flex-shrink: 0; }
     }
 }

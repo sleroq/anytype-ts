@@ -37,6 +37,8 @@ export interface Preview {
 	passThrough?: boolean;
 	noAnimation?: boolean;
 	withPlural?: boolean;
+	typeX?: I.MenuDirection.Left | I.MenuDirection.Center | I.MenuDirection.Right;
+	tabObject?: any;
 	delay?: number;
 	x?: number;
 	y?: number;

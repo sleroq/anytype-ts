@@ -285,6 +285,7 @@ $(() => {
 			const offset = tab.offset();
 			const data = {
 				spaceId: item.data.spaceId || '',
+				objectData: item.data.objectData || null,
 				offsetLeft: offset.left,
 				width: tab.outerWidth(),
 			};

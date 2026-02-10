@@ -143,7 +143,24 @@ const PreviewIndex = observer(forwardRef(() => {
 			pcss.clipPath = cpBot;
 		};
 			
-		css.left = x - ow / 2 + width / 2;
+		switch (preview.typeX) {
+			default:
+			case I.MenuDirection.Center: {
+				css.left = x - ow / 2 + width / 2;
+				break;
+			};
+
+			case I.MenuDirection.Left: {
+				css.left = x;
+				break;
+			};
+
+			case I.MenuDirection.Right: {
+				css.left = x + width - ow;
+				break;
+			};
+		};
+
 		css.left = Math.max(BORDER, css.left);
 		css.left = Math.min(ww - ow - BORDER, css.left);
 
@@ -204,7 +221,7 @@ const PreviewIndex = observer(forwardRef(() => {
 		};
 
 		case I.PreviewType.Tab: {
-			content = <PreviewTab object={initialObject} position={position} />;
+			content = <PreviewTab spaceview={initialObject} object={preview.tabObject} position={position} />;
 			break;
 		};
 	};
