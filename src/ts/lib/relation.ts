@@ -75,7 +75,7 @@ class Relation {
 	/**
 	 * Returns available filter conditions for a relation type.
 	 * @param {I.RelationType} type - The relation type.
-	 * @returns {Array<{id: I.FilterCondition, name: string}>} The filter conditions.
+	 * @returns {Array<{id: I.FilterCondition, name: string, short?: string, colon?: boolean}>} The filter conditions.
 	 */
 	public filterConditionsByType (type: I.RelationType, value?: any): { id: I.FilterCondition, name: string, short?: string, colon?: boolean }[] {
 		value = this.formatValue({ format: type }, value, false);
@@ -256,7 +256,7 @@ class Relation {
 
 	/**
 	 * Returns filter conditions for dictionary relations.
-	 * @returns {Array<{id: I.FilterCondition, name: string}>} The filter conditions.
+	 * @returns {Array<{id: I.FilterCondition, name: string, short?: string, colon?: boolean}>} The filter conditions.
 	 */
 	public filterConditionsDictionary () {
 		return [
