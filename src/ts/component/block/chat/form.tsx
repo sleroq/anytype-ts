@@ -298,10 +298,14 @@ const ChatForm = observer(forwardRef<RefProps, Props>((props, ref) => {
 		const menuOpenMention = S.Menu.isOpen('blockMention');
 		const canOpenMenuMention = !spaceview.isOneToOne && !menuOpenMention && (oneSymbolBefore == '@') && (!twoSymbolBefore || [ ' ', '\n', '(', '[', '"', '\'' ].includes(twoSymbolBefore));
 
-		setMarks(parsed.marks);
+		const cleanedMarks = Mark.checkRanges(parsed.text, parsed.marks);
+		setMarks(cleanedMarks);
 
 		let adjustMarks = false;
 
+		if (cleanedMarks.length < parsed.marks.length) {
+			updateMarkup(parsed.text, range.current);
+		} else
 		if (value !== parsed.text) {
 			const diff = value.length - parsed.text.length;
 			updateMarkup(parsed.text, { from: to - diff, to: to - diff });
