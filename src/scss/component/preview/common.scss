@@ -24,6 +24,8 @@
 		.border { display: none; }
 		.cover { border-radius: 0px; }
 	}
+
+	&.isTab { width: auto; }
 }
 .previewWrapper.passThrough { pointer-events: none; }
 
@@ -49,3 +51,4 @@
 
 @import "./link";
 @import "./object";
+@import "./tab";

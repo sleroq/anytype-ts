@@ -20,6 +20,14 @@ $(() => {
 	let timeoutResize = 0;
 	let tabsData = [];
 
+	// Tooltip state
+	let tooltipTimeout = 0;
+	let tooltipHideTimeout = 0;
+	let tooltipVisible = false;
+
+	const TOOLTIP_DELAY = 650;
+	const TOOLTIP_DELAY_SHORT = 50;
+
 	// Tab detach state
 	let windowBounds = null;
 	let draggedTabId = null;
@@ -268,6 +276,37 @@ $(() => {
 			electron.Api(winId, 'showTabContextMenu', { tabId: item.id, isPinned });
 		});
 
+		tab.on('mouseenter', () => {
+			if (isDragging) return;
+
+			window.clearTimeout(tooltipTimeout);
+			window.clearTimeout(tooltipHideTimeout);
+
+			const delay = tooltipVisible ? TOOLTIP_DELAY_SHORT : TOOLTIP_DELAY;
+			const offset = tab.offset();
+			const data = {
+				spaceId: item.data.spaceId || '',
+				objectData: item.data.objectData || null,
+				isPinned: Boolean(item.data.isPinned),
+				offsetLeft: offset.left,
+				width: tab.outerWidth(),
+			};
+
+			tooltipTimeout = window.setTimeout(() => {
+				tooltipVisible = true;
+				electron.Api(winId, 'tabShowTooltip', data);
+			}, delay);
+		});
+
+		tab.on('mouseleave', () => {
+			window.clearTimeout(tooltipTimeout);
+
+			tooltipHideTimeout = window.setTimeout(() => {
+				tooltipVisible = false;
+				electron.Api(winId, 'tabHideTooltip');
+			}, 100);
+		});
+
 		return tab;
 	};
 
@@ -344,6 +383,14 @@ $(() => {
 			onStart: async (evt) => {
 				isDragging = true;
 				draggedTabId = $(evt.item).attr('data-id');
+
+				// Hide tooltip on drag start
+				window.clearTimeout(tooltipTimeout);
+				window.clearTimeout(tooltipHideTimeout);
+				if (tooltipVisible) {
+					tooltipVisible = false;
+					electron.Api(winId, 'tabHideTooltip');
+				};
 
 				const item = $(evt.item);
 				item.css('visibility', 'hidden');
@@ -436,6 +483,14 @@ $(() => {
 	const setTabs = (tabs, id, isVisible) => {
 		if (isDragging) {
 			return; // Don't update during drag
+		};
+
+		// Hide tooltip on tabs update
+		window.clearTimeout(tooltipTimeout);
+		window.clearTimeout(tooltipHideTimeout);
+		if (tooltipVisible) {
+			tooltipVisible = false;
+			electron.Api(winId, 'tabHideTooltip');
 		};
 
 		container.empty();
