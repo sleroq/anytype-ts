@@ -103,7 +103,7 @@ const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 			return '';
 		};
 
-		const conditionOptions = Relation.filterConditionsByType(relation.format);
+		const conditionOptions = Relation.filterConditionsByType(relation.format, item.value);
 		const conditionOption: any = conditionOptions.find(it => it.id == condition) || {};
 
 		return conditionOption.name || '';

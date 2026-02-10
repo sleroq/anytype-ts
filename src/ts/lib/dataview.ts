@@ -1062,17 +1062,17 @@ class Dataview {
 
 	/**
 	 * Creates default filter values from a relation item.
-	 * @param {any} item - The relation item (must have format).
+	 * @param {any} relation - The relation item (must have format).
 	 * @returns {object} The default filter values with condition, value, and quickOption.
 	 */
-	getDefaultFilterValues (item: any): { condition: I.FilterCondition; value: any; quickOption: I.FilterQuickOption } {
-		const conditions = Relation.filterConditionsByType(item.format);
+	getDefaultFilterValues (relation: any): { condition: I.FilterCondition; value: any; quickOption: I.FilterQuickOption } {
+		const conditions = Relation.filterConditionsByType(relation.format);
 		const condition = conditions.length ? conditions[0].id : I.FilterCondition.None;
-		const quickOption = this.getDefaultQuickOption(item);
+		const quickOption = this.getDefaultQuickOption(relation);
 
 		return {
 			condition: condition as I.FilterCondition,
-			value: Relation.formatValue(item, null, false),
+			value: Relation.formatValue(relation, null, false),
 			quickOption,
 		};
 	};

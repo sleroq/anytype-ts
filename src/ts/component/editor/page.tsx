@@ -2565,7 +2565,7 @@ const EditorPage = observer(forwardRef<I.BlockRef, Props>((props, ref) => {
 
 					<PageHeadEditor 
 						{...props} 
-						ref={ref => headerRef.current = ref}
+						ref={headerRef}
 						onKeyDown={onKeyDownBlock}
 						onKeyUp={onKeyUpBlock}  
 						onMenuAdd={onMenuAdd}

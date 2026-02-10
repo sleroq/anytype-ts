@@ -53,6 +53,21 @@ const MenuDataviewFilterValues = observer(forwardRef<I.MenuRef, I.Menu>((props, 
 	}, []);
 
 	useEffect(() => {
+		if (!item) {
+			return;
+		};
+
+		const relation = S.Record.getRelationByKey(item.relationKey);
+		if (!relation) {
+			return;
+		};
+
+		const conditionOptions = Relation.filterConditionsByType(relation.format, item.value);
+
+		conditionRef.current.setOptions(conditionOptions);
+	}, [ item?.relationKey, item?.value ]);
+
+	useEffect(() => {
 		const view = getView();
 		if (!view) {
 			return;
@@ -375,7 +390,7 @@ const MenuDataviewFilterValues = observer(forwardRef<I.MenuRef, I.Menu>((props, 
 
 	const isReadonly = readonly || !S.Block.checkFlags(rootId, blockId, [ I.RestrictionDataview.View ]);
 	const relationOptions = getRelationOptions();
-	const conditionOptions = Relation.filterConditionsByType(relation.format);
+	const conditionOptions = Relation.filterConditionsByType(relation.format, item.value);
 	const checkboxOptions: I.Option[] = [
 		{ id: '1', name: translate('menuDataviewFilterValuesChecked') },
 		{ id: '0', name: translate('menuDataviewFilterValuesUnchecked') },
@@ -407,7 +422,7 @@ const MenuDataviewFilterValues = observer(forwardRef<I.MenuRef, I.Menu>((props, 
 		<div className="textInputWrapper">
 			<Input
 				key={key ? key : 'value-text'}
-				ref={ref => inputRef.current = ref}
+				ref={inputRef}
 				value={item.value}
 				placeholder={placeholder || translate(`placeholderCell${relation.format}`)}
 				onFocus={onFocusText}
@@ -559,7 +574,7 @@ const MenuDataviewFilterValues = observer(forwardRef<I.MenuRef, I.Menu>((props, 
 		value = (
 			<Select 
 				id={[ 'filter', 'dictionary', item.id ].join('-')} 
-				ref={ref => selectRef.current = ref}
+				ref={selectRef}
 				className="checkboxValue" 
 				arrowClassName="light"
 				options={Relation.getDictionaryOptions(item.relationKey)} 

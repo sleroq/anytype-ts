@@ -77,7 +77,9 @@ class Relation {
 	 * @param {I.RelationType} type - The relation type.
 	 * @returns {Array<{id: I.FilterCondition, name: string}>} The filter conditions.
 	 */
-	public filterConditionsByType (type: I.RelationType): { id: I.FilterCondition, name: string}[] {
+	public filterConditionsByType (type: I.RelationType, value?: any): { id: I.FilterCondition, name: string}[] {
+		value = this.formatValue({ format: type }, value, false);
+
 		let ret: { id: I.FilterCondition, name: string }[] = [];
 
 		switch (type) {
@@ -101,9 +103,12 @@ class Relation {
 			case I.RelationType.Object:
 			case I.RelationType.Select:
 			case I.RelationType.MultiSelect: {
+				const length = value.length;
+
+
 				ret = [
-					{ id: I.FilterCondition.In,			 name: translate('filterConditionInArray') },
-					{ id: I.FilterCondition.AllIn,		 name: translate('filterConditionAllIn') },
+					{ id: I.FilterCondition.In,			 name: length > 1 ? translate('filterConditionInArray') : translate('filterConditionLike') },
+					length > 1 ? { id: I.FilterCondition.AllIn,		 name: translate('filterConditionAllIn') } : null,
 					{ id: I.FilterCondition.NotIn,		 name: translate('filterConditionNotInArray') },
 					{ id: I.FilterCondition.Empty,		 name: translate('filterConditionEmpty') },
 					{ id: I.FilterCondition.NotEmpty,	 name: translate('filterConditionNotEmpty') },
@@ -149,7 +154,7 @@ class Relation {
 			};
 
 		};
-		return ret;
+		return ret.filter(it => it);
 	};
 
 	/**

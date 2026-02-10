@@ -56,14 +56,14 @@ const DataviewFilterItem = observer(forwardRef<{}, Props>((props, ref) => {
 	if (isDictionary) {
 		conditionOptions = Relation.filterConditionsDictionary();
 	} else {
-		conditionOptions = Relation.filterConditionsByType(relation.format);
+		conditionOptions = Relation.filterConditionsByType(relation.format, filter.value);
 	};
 
 	const conditionOption: any = conditionOptions.find(it => it.id == condition) || {};
 	const filterOptions = Relation.filterQuickOptions(relation.format, conditionOption.id);
 	const filterOption: any = filterOptions.find(it => it.id == quickOption) || {};
-
 	const name = relation.name;
+
 	let value = filter.value;
 	let v: any = null;
 	let list = [];
