@@ -77,10 +77,10 @@ class Relation {
 	 * @param {I.RelationType} type - The relation type.
 	 * @returns {Array<{id: I.FilterCondition, name: string}>} The filter conditions.
 	 */
-	public filterConditionsByType (type: I.RelationType, value?: any): { id: I.FilterCondition, name: string}[] {
+	public filterConditionsByType (type: I.RelationType, value?: any): { id: I.FilterCondition, name: string, short?: string, colon?: boolean }[] {
 		value = this.formatValue({ format: type }, value, false);
 
-		let ret: { id: I.FilterCondition, name: string }[] = [];
+		let ret: { id: I.FilterCondition, name: string, short?: string, colon?: boolean }[] = [];
 
 		switch (type) {
 			case I.RelationType.ShortText:
@@ -89,12 +89,12 @@ class Relation {
 			case I.RelationType.Email:
 			case I.RelationType.Phone: {
 				ret = [
-					{ id: I.FilterCondition.Like,		 name: translate('filterConditionLike') },
-					{ id: I.FilterCondition.NotLike,	 name: translate('filterConditionNotLike') },
+					{ id: I.FilterCondition.Like,		 name: translate('filterConditionLike'), short: '', colon: true },
+					{ id: I.FilterCondition.NotLike,	 name: translate('filterConditionNotLike'), short: translate('filterConditionShortNot'), colon: true },
 					{ id: I.FilterCondition.Equal,		 name: translate('filterConditionEqual') },
 					{ id: I.FilterCondition.NotEqual,	 name: translate('filterConditionNotEqual') },
 					{ id: I.FilterCondition.Empty,		 name: translate('filterConditionEmpty') },
-					{ id: I.FilterCondition.NotEmpty,	 name: translate('filterConditionNotEmpty') },
+					{ id: I.FilterCondition.NotEmpty,	 name: translate('filterConditionNotEmpty'), short: translate('filterConditionShortNotEmpty') },
 				];
 				break;
 			};
@@ -105,13 +105,12 @@ class Relation {
 			case I.RelationType.MultiSelect: {
 				const length = value.length;
 
-
 				ret = [
-					{ id: I.FilterCondition.In,			 name: length > 1 ? translate('filterConditionInArray') : translate('filterConditionLike') },
-					length > 1 ? { id: I.FilterCondition.AllIn,		 name: translate('filterConditionAllIn') } : null,
-					{ id: I.FilterCondition.NotIn,		 name: translate('filterConditionNotInArray') },
+					{ id: I.FilterCondition.In,			 name: length > 1 ? translate('filterConditionInArray') : translate('filterConditionLike'), short: '', colon: true },
+					length > 1 ? { id: I.FilterCondition.AllIn, name: translate('filterConditionAllIn'), short: translate('filterConditionShortAll'), colon: true } : null,
+					{ id: I.FilterCondition.NotIn,		 name: translate('filterConditionNotInArray'), short: translate('filterConditionShortNot'), colon: true },
 					{ id: I.FilterCondition.Empty,		 name: translate('filterConditionEmpty') },
-					{ id: I.FilterCondition.NotEmpty,	 name: translate('filterConditionNotEmpty') },
+					{ id: I.FilterCondition.NotEmpty,	 name: translate('filterConditionNotEmpty'), short: translate('filterConditionShortNotEmpty') },
 				];
 				break;
 			};
@@ -125,21 +124,21 @@ class Relation {
 					{ id: I.FilterCondition.GreaterOrEqual,	 name: '≥' },
 					{ id: I.FilterCondition.LessOrEqual,	 name: '≤' },
 					{ id: I.FilterCondition.Empty,		 name: translate('filterConditionEmpty') },
-					{ id: I.FilterCondition.NotEmpty,	 name: translate('filterConditionNotEmpty') },
+					{ id: I.FilterCondition.NotEmpty,	 name: translate('filterConditionNotEmpty'), short: translate('filterConditionShortNotEmpty') },
 				];
 				break;
 			};
 
 			case I.RelationType.Date: {
 				ret = [
-					{ id: I.FilterCondition.Equal,			 name: translate('filterConditionEqual') },
-					{ id: I.FilterCondition.Greater,		 name: translate('filterConditionGreaterDate') },
-					{ id: I.FilterCondition.Less,			 name: translate('filterConditionLessDate') },
-					{ id: I.FilterCondition.GreaterOrEqual,	 name: translate('filterConditionGreaterOrEqualDate') },
-					{ id: I.FilterCondition.LessOrEqual,	 name: translate('filterConditionLessOrEqualDate') },
-					{ id: I.FilterCondition.In,				 name: translate('filterConditionInDate') },
+					{ id: I.FilterCondition.Equal,			 name: translate('filterConditionEqual'), short: '', colon: true },
+					{ id: I.FilterCondition.Greater,		 name: translate('filterConditionGreaterDate'), short: translate('filterConditionShortAfter'), colon: true },
+					{ id: I.FilterCondition.Less,			 name: translate('filterConditionLessDate'), short: translate('filterConditionShortBefore'), colon: true },
+					{ id: I.FilterCondition.GreaterOrEqual,	 name: translate('filterConditionGreaterOrEqualDate'), short: translate('filterConditionShortFrom'), colon: true },
+					{ id: I.FilterCondition.LessOrEqual,	 name: translate('filterConditionLessOrEqualDate'), short: translate('filterConditionShortUntil'), colon: true },
+					{ id: I.FilterCondition.In,				 name: translate('filterConditionInDate'), short: '', colon: true },
 					{ id: I.FilterCondition.Empty,			 name: translate('filterConditionEmpty') },
-					{ id: I.FilterCondition.NotEmpty,		 name: translate('filterConditionNotEmpty') },
+					{ id: I.FilterCondition.NotEmpty,		 name: translate('filterConditionNotEmpty'), short: translate('filterConditionShortNotEmpty') },
 				];
 				break;
 			};
@@ -147,8 +146,8 @@ class Relation {
 			case I.RelationType.Checkbox:
 			default: {
 				ret = [
-					{ id: I.FilterCondition.Equal,			 name: translate('filterConditionEqual') },
-					{ id: I.FilterCondition.NotEqual,		 name: translate('filterConditionNotEqual') },
+					{ id: I.FilterCondition.Equal,			 name: translate('filterConditionEqual'), short: '', colon: true },
+					{ id: I.FilterCondition.NotEqual,		 name: translate('filterConditionNotEqual'), short: translate('filterConditionShortNot'), colon: true },
 				];
 				break;
 			};
@@ -261,10 +260,10 @@ class Relation {
 	 */
 	public filterConditionsDictionary () {
 		return [
-			{ id: I.FilterCondition.Equal,		 name: translate('filterConditionEqual') },
-			{ id: I.FilterCondition.NotEqual,	 name: translate('filterConditionNotEqual') },
+			{ id: I.FilterCondition.Equal,		 name: translate('filterConditionEqual'), short: '', colon: true },
+			{ id: I.FilterCondition.NotEqual,	 name: translate('filterConditionNotEqual'), short: translate('filterConditionShortNot'), colon: true },
 			{ id: I.FilterCondition.Empty,		 name: translate('filterConditionEmpty') },
-			{ id: I.FilterCondition.NotEmpty,	 name: translate('filterConditionNotEmpty') },
+			{ id: I.FilterCondition.NotEmpty,	 name: translate('filterConditionNotEmpty'), short: translate('filterConditionShortNotEmpty') },
 		];
 	};
 
