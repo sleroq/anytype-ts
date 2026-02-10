@@ -13,7 +13,7 @@ const BlockBookmark = observer(forwardRef<I.BlockRef, I.BlockComponent>((props, 
 	const innerRef = useRef<HTMLAnchorElement>(null);
 	const object = S.Detail.get(rootId, targetObjectId, [ 'picture', 'source' ]);
 	const { iconImage, picture, isArchived, isDeleted } = object;
-	const url = object.source || block.content.url;
+	const url = block.content.url || object.source;
 	const cn = [ 'focusable', `c${block.id}` ];
 
 	const onKeyDownHandler = (e: any) => {
