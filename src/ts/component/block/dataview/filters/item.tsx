@@ -147,6 +147,10 @@ const DataviewFilterItem = observer(forwardRef<{}, Props>((props, ref) => {
 		cn.push('isActive');
 	};
 
+	const hasShort = conditionOption.short !== undefined;
+	const displayName = (withValue && hasShort && conditionOption.colon) ? `${name}:` : name;
+	const conditionText = (withValue && hasShort) ? conditionOption.short : conditionOption.name;
+
 	return (
 		<div
 			id={`item-${id}`}
@@ -158,12 +162,12 @@ const DataviewFilterItem = observer(forwardRef<{}, Props>((props, ref) => {
 			<Icon className={`filterIcon ${getFilterRelationIcon(relation.format)}`} />
 
 			<div className="content">
-				<Label className="name" text={name} />
+				<Label className="name" text={displayName} />
 
 				{withValue ? (
 					<>
-						<Label className="condition" text={conditionOption.name} />
-						<div className="value">{v}</div>
+						{conditionText ? <Label className="condition" text={conditionText} /> : null}
+						{v !== null ? <div className="value">{v}</div> : null}
 					</>
 				) : ''}
 			</div>
