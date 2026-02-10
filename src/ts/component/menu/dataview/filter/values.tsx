@@ -64,7 +64,7 @@ const MenuDataviewFilterValues = observer(forwardRef<I.MenuRef, I.Menu>((props, 
 
 		const conditionOptions = Relation.filterConditionsByType(relation.format, item.value);
 
-		conditionRef.current.setOptions(conditionOptions);
+		conditionRef.current?.setOptions(conditionOptions);
 	}, [ item?.relationKey, item?.value ]);
 
 	useEffect(() => {
