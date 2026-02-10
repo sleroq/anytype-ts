@@ -1,7 +1,6 @@
-import React, { forwardRef, useEffect, useState, useRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import { observer } from 'mobx-react';
-import { ObjectName, ObjectDescription, ObjectType, IconObject, Loader } from 'Component';
-import { S, U } from 'Lib';
+import { ObjectName, IconObject } from 'Component';
 
 interface Props {
 	id?: string;
@@ -23,12 +22,10 @@ const PreviewTab = observer(forwardRef<{}, Props>((props, ref) => {
 
 	return (
 		<div id={id} className={cn.join(' ')} data-id={object?.id}>
-			<>
-				<div className="previewHeader">
-					<IconObject object={object} />
-					<ObjectName object={object} withLatex={true} />
-				</div>
-			</>
+			<div className="previewHeader">
+				<IconObject object={object} />
+				<ObjectName object={object} withLatex={true} />
+			</div>
 		</div>
 	);
 
