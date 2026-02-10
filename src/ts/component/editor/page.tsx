@@ -8,6 +8,7 @@ import { I, C, S, U, J, Key, Preview, Mark, keyboard, Storage, Action, translate
 import PageHeadEditor from 'Component/page/elements/head/editor';
 import Children from 'Component/page/elements/children';
 import TableOfContents from 'Component/page/elements/tableOfContents';
+import { link } from 'fs';
 
 interface Props extends I.PageComponent {
 	onOpen?(): void;
@@ -2009,6 +2010,9 @@ const EditorPage = observer(forwardRef<I.BlockRef, Props>((props, ref) => {
 			return;
 		};
 
+		const route = U.Common.getRouteFromUrl(url);
+		console.log(route);
+
 		const marks = U.Common.objectCopy(block.content.marks || []);
 		const currentMark = Mark.getInRange(marks, I.MarkType.Link, range, [ I.MarkOverlap.Left, I.MarkOverlap.Right ]);
 
@@ -2022,15 +2026,18 @@ const EditorPage = observer(forwardRef<I.BlockRef, Props>((props, ref) => {
 			return;
 		};
 
+		let linkParamUrl = url;
+		if (route) {
+			linkParamUrl = `${J.Constant.protocol}://${route}`;
+		};
+
 		const isInsideTable = S.Block.checkIsInsideTable(rootId, block.id);
 		const win = $(window);
 		const length = block.getLength();
 		const position = length ? I.BlockPosition.Bottom : I.BlockPosition.Replace;
 		const processor = U.Embed.getProcessorByUrl(url);
 		const canBookmark = !isInsideTable && !isLocal;
-
-		// Check if URL is an Anytype object link in the same space (but not the current page)
-		const linkParam = U.Common.getLinkParamFromUrl(url);
+		const linkParam = U.Common.getLinkParamFromUrl(linkParamUrl);
 		const isAnytypeObject = linkParam.isInside && linkParam.target;
 		const isSameSpace = !linkParam.spaceId || (linkParam.spaceId == S.Common.space);
 		const isSameObject = linkParam.target == rootId;

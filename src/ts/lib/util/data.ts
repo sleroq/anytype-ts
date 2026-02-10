@@ -44,17 +44,25 @@ class UtilData {
 	 * @returns {string} The CSS class.
 	 */
 	blockTextClass(v: I.TextStyle): string {
+		const toggleHeaders = [
+			I.TextStyle.ToggleHeader1, 
+			I.TextStyle.ToggleHeader2, 
+			I.TextStyle.ToggleHeader3,
+		];
+
 		let ret = `text${String(I.TextStyle[v] || 'Paragraph')}`;
 
 		if ([ 
 			I.TextStyle.Header1,
 			I.TextStyle.Header2,
 			I.TextStyle.Header3,
-			I.TextStyle.ToggleHeader1, 
-			I.TextStyle.ToggleHeader2, 
-			I.TextStyle.ToggleHeader3,
+			...toggleHeaders,
 		].includes(v)) {
 			ret = `textHeader ${ret}`;
+		};
+
+		if (toggleHeaders.includes(v)) {
+			ret = `textToggleHeader ${ret}`;
 		};
 
 		return ret;
