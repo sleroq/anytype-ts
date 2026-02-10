@@ -356,7 +356,7 @@ const MenuSort = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 				<div className="sides">
 					<div className="side left">
 						<div className="chip relation" onClick={e => onSortNameClick(e, item)}>
-							<IconObject size={20} object={{ relationFormat: relation.format, layout: I.ObjectLayout.Relation }} />
+							<IconObject size={20} iconSize={20} object={{ relationFormat: relation.format, layout: I.ObjectLayout.Relation }} />
 							<div className="name">{relation.name}</div>
 						</div>
 						<div className="chip type" onClick={e => onTypeChange(e, item)}>

@@ -4,15 +4,15 @@ import { observer } from 'mobx-react';
 import { AutoSizer, CellMeasurer, InfiniteLoader, List, CellMeasurerCache } from 'react-virtualized';
 import { I, C, S, U, Relation, keyboard, translate, analytics, Dataview } from 'Lib';
 import { MenuItemVertical, Icon, Label } from 'Component';
-import relation from 'json/relation';
 
 const HEIGHT_ITEM = 28;
+const HEIGHT_FILTER = 32;
 const HEIGHT_DIV = 16;
 const LIMIT = 20;
 
 const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 
-	const { param, getId, position, onKeyDown, setActive } = props;
+	const { param, getId, onKeyDown, setActive } = props;
 	const { data } = param;
 	const { rootId, blockId, getView, loadData, isInline, getTarget, readonly, closeFilters } = data;
 	const nodeRef = useRef(null);
@@ -54,6 +54,7 @@ const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 			return {
 				...it,
 				relation: S.Record.getRelationByKey(it.relationKey),
+				isFilter: true,
 			};
 		}).filter(it => it.relation || Dataview.isAdvancedFilter(it)).sort((a, b) => {
 			const aAdvanced = Dataview.isAdvancedFilter(a);
@@ -89,6 +90,7 @@ const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 
 	const getRowHeight = (item: any) => {
 		if (item.isDiv) return HEIGHT_DIV;
+		if (item.isFilter) return HEIGHT_FILTER;
 		return HEIGHT_ITEM;
 	};
 
@@ -443,7 +445,7 @@ const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 		const obj = $(`#${getId()} .content`);
 		const items = getItems();
 		const itemsHeight = items.reduce((res: number, current: any) => res + getRowHeight(current), 0);
-		const height = Math.max(HEIGHT_ITEM + 24, Math.min(400, itemsHeight + 24));
+		const height = Math.max(HEIGHT_ITEM + 16, Math.min(400, itemsHeight + 16));
 
 		obj.css({ height });
 	};
