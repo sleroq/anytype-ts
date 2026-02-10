@@ -106,8 +106,8 @@ class Relation {
 				const length = value.length;
 
 				ret = [
-					{ id: I.FilterCondition.In,			 name: length > 1 ? translate('filterConditionInArray') : translate('filterConditionLike'), short: '', colon: true },
-					length > 1 ? { id: I.FilterCondition.AllIn, name: translate('filterConditionAllIn'), short: translate('filterConditionShortAll'), colon: true } : null,
+					{ id: I.FilterCondition.In,			 name: translate('filterConditionInArray'), short: '', colon: true },
+					{ id: I.FilterCondition.AllIn, name: translate('filterConditionAllIn'), short: translate('filterConditionShortAll'), colon: true },
 					{ id: I.FilterCondition.NotIn,		 name: translate('filterConditionNotInArray'), short: translate('filterConditionShortNot'), colon: true },
 					{ id: I.FilterCondition.Empty,		 name: translate('filterConditionEmpty') },
 					{ id: I.FilterCondition.NotEmpty,	 name: translate('filterConditionNotEmpty'), short: translate('filterConditionShortNotEmpty') },
