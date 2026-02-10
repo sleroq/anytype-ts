@@ -12,6 +12,7 @@ import SelectionProvider from './selection/provider';
 import SelectionTarget from './selection/target';
 
 import GraphProvider from './graph/provider';
+import GraphTimeline from './graph/timeline';
 
 import ListPopup from './list/popup';
 import ListMenu from './list/menu';
@@ -127,6 +128,7 @@ export {
 	SelectionTarget,
 
 	GraphProvider,
+	GraphTimeline,
 
 	ListPopup,
 	ListMenu,

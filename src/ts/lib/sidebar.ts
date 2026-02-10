@@ -393,8 +393,42 @@ class Sidebar {
 
 	leftPanelSubPageToggle (id: string, animate: boolean, save: boolean) {
 		const { isClosed } = this.getData(I.SidebarPanel.SubLeft);
-		
+
 		isClosed ? this.leftPanelSubPageOpen(id, animate, save) : this.leftPanelSubPageClose(animate, save);
+	};
+
+	toggleBothPanels () {
+		if (this.isAnimating) {
+			return;
+		};
+
+		const dataLeft = this.getData(I.SidebarPanel.Left);
+		const dataSubLeft = this.getData(I.SidebarPanel.SubLeft);
+		const shouldOpen = dataLeft.isClosed || dataSubLeft.isClosed;
+		const delay = J.Constant.delay.sidebar;
+
+		S.Menu.closeAll();
+
+		if (shouldOpen) {
+			if (dataLeft.isClosed && dataSubLeft.isClosed) {
+				this.leftPanelOpen(dataLeft.width, true, true);
+				window.setTimeout(() => {
+					this.setAnimating(false);
+					this.leftPanelSubPageOpen('widget', true, true);
+				}, delay);
+			} else
+			if (dataLeft.isClosed) {
+				this.leftPanelOpen(dataLeft.width, true, true);
+			} else {
+				this.leftPanelSubPageOpen('widget', true, true);
+			};
+		} else {
+			this.leftPanelSubPageClose(true, true);
+			window.setTimeout(() => {
+				this.setAnimating(false);
+				this.leftPanelClose(true, true);
+			}, delay);
+		};
 	};
 
 	/**

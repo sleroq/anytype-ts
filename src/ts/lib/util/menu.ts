@@ -1833,6 +1833,8 @@ class UtilMenu {
 
 							widgetSections[idx].isHidden = true;
 							S.Common.widgetSectionsSet([ ...widgetSections ]);
+
+							analytics.event('HideSection');
 							break;
 						};
 

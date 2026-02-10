@@ -110,9 +110,8 @@ The graph view uses a Web Worker with PixiJS WebGL rendering for performance:
 
 **Files:**
 - `src/ts/component/graph/provider.tsx` - React component, D3 zoom/drag, image loading
-- `dist/workers/graph.pixi.js` - Web Worker with D3 force simulation + PixiJS WebGL rendering
+- `dist/workers/graph.js` - Web Worker with D3 force simulation + PixiJS WebGL rendering
 - `dist/workers/lib/pixi.min.js` - Bundled PixiJS for worker (built from `rspack.pixi.config.js`)
-- `dist/workers/lib/util.js` - Canvas drawing utilities (legacy, still used for some helpers)
 
 **Architecture:**
 - OffscreenCanvas transferred to worker for off-main-thread rendering

@@ -227,8 +227,8 @@
 				.separator.vertical { width: 1px; height: 20px; background-color: var(--color-shape-secondary); align-self: center; flex-shrink: 0; }
 
 				.filterItem {
-					position: relative; display: flex; flex-direction: row; gap: 0px 6px; height: 28px; align-items: center; padding: 0px 8px;
-					border-radius: 16px; color: var(--color-text-secondary); font-weight: 500;
+					position: relative; display: flex; flex-direction: row; gap: 0px 4px; height: 28px; align-items: center; padding: 0px 10px 0px 8px;
+					border-radius: 16px; color: var(--color-text-secondary);
 				}
 				.filterItem {
 					.icon.filterIcon { width: 20px; height: 20px; }
@@ -246,11 +246,12 @@
 					.icon.isPhone { background-image: url('~img/icon/dataview/filters/relation/phone0.svg'); }
 					.icon.isMultiselect { background-image: url('~img/icon/dataview/filters/relation/multiselect0.svg'); }
 					.icon.isObject { background-image: url('~img/icon/dataview/filters/relation/object0.svg'); }
+					.icon.arrow { width: 8px; height: 8px; background-image: url('~img/arrow/filterValue0.svg'); }
 
 					&.isActive { color: var(--color-system-accent-100); background-color: var(--color-system-selection); }
 					&.isActive {
 						&:hover, &.hover { background-color: var(--color-system-drop-zone); }
-						.name { font-weight: 600; }
+						.name { font-weight: 500; }
 
 						.icon.advanced { background-image: url('~img/icon/dataview/filters/advanced1.svg'); }
 						.icon.isText { background-image: url('~img/icon/dataview/filters/relation/text1.svg'); }
@@ -264,6 +265,7 @@
 						.icon.isPhone { background-image: url('~img/icon/dataview/filters/relation/phone1.svg'); }
 						.icon.isMultiselect { background-image: url('~img/icon/dataview/filters/relation/multiselect1.svg'); }
 						.icon.isObject { background-image: url('~img/icon/dataview/filters/relation/object1.svg'); }
+						.icon.arrow { background-image: url('~img/arrow/filterValue1.svg'); }
 					}
 					&:hover, &.hover { background-color: var(--color-shape-highlight-medium); border-color: transparent; }
 

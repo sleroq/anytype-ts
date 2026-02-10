@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { AutoSizer, CellMeasurer, InfiniteLoader, List, CellMeasurerCache } from 'react-virtualized';
 import { I, C, S, U, Relation, keyboard, translate, analytics, Dataview } from 'Lib';
 import { MenuItemVertical, Icon, Label } from 'Component';
+import relation from 'json/relation';
 
 const HEIGHT_ITEM = 28;
 const HEIGHT_DIV = 16;
@@ -28,7 +29,7 @@ const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 	}, []);
 
 	useEffect(() => {
-		resize();
+		beforePosition();
 		setActive();
 	});
 
@@ -102,7 +103,7 @@ const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 			return '';
 		};
 
-		const conditionOptions = Relation.filterConditionsByType(relation.format);
+		const conditionOptions = Relation.filterConditionsByType(relation.format, item.value);
 		const conditionOption: any = conditionOptions.find(it => it.id == condition) || {};
 
 		return conditionOption.name || '';
@@ -245,6 +246,7 @@ const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 	const onRemoveFilter = (item: any) => {
 		const view = getView();
 		const object = getTarget();
+		const rel = S.Record.getRelationByKey(item.relationKey);
 
 		C.BlockDataviewFilterRemove(rootId, blockId, view.id, [ item.id ], () => {
 			loadData(view.id, 0, false);
@@ -252,6 +254,8 @@ const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 
 		analytics.event('RemoveFilter', {
 			objectType: object.type,
+			relationKey: item.relationKey,
+			format: rel?.format,
 			embedType: analytics.embedType(isInline)
 		});
 	};
@@ -435,14 +439,13 @@ const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 		);
 	};
 
-	const resize = () => {
+	const beforePosition = () => {
 		const obj = $(`#${getId()} .content`);
 		const items = getItems();
 		const itemsHeight = items.reduce((res: number, current: any) => res + getRowHeight(current), 0);
 		const height = Math.max(HEIGHT_ITEM + 24, Math.min(400, itemsHeight + 24));
 
 		obj.css({ height });
-		position();
 	};
 
 	useImperativeHandle(ref, () => ({
@@ -452,6 +455,7 @@ const MenuFilterList = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 		getIndex: () => n.current,
 		setIndex: (i: number) => n.current = i,
 		onClick,
+		beforePosition,
 	}), []);
 
 	const items = getItems();

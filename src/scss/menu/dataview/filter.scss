@@ -69,7 +69,7 @@
 		}
 	}
 
-	.menu.menuDataviewFilterAdvanced { width: var(--menu-width-advanced); }
+	.menu.menuDataviewFilterAdvanced { width: unset; min-width: var(--menu-width-large); }
 	.menu.menuDataviewFilterAdvanced {
 		.content { padding-top: 0px; }
 		.wrap { height: 100%; display: flex; flex-direction: column; }

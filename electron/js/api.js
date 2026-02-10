@@ -1,10 +1,9 @@
-const { app, shell, BrowserWindow, Menu, Notification, ipcMain, nativeTheme } = require('electron');
+const { app, shell, BrowserWindow, Menu, Notification, ipcMain } = require('electron');
 const { is } = require('electron-util');
 const fs = require('fs');
 const path = require('path');
 const keytar = require('keytar');
 const { download } = require('electron-dl');
-const si = require('systeminformation');
 const { exec, execFile } = require('child_process');
 const checkDiskSpace = require('check-disk-space').default;
 
@@ -558,20 +557,6 @@ class Api {
 			view.data = { ...view.data, route };
 			view.webContents.reload();
 		};
-	};
-
-	systemInfo (win) {
-		const { config } = ConfigManager;
-
-		if (config.systemInfo) {
-			return;
-		};
-
-		ConfigManager.set({ systemInfo: true }, () => {
-			si.getStaticData().then(data => {
-				Util.send(win, 'commandGlobal', 'systemInfo', data);
-			});
-		});
 	};
 
 	moveNetworkConfig (win, src) {

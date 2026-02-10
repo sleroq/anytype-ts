@@ -44,17 +44,25 @@ class UtilData {
 	 * @returns {string} The CSS class.
 	 */
 	blockTextClass(v: I.TextStyle): string {
+		const toggleHeaders = [
+			I.TextStyle.ToggleHeader1, 
+			I.TextStyle.ToggleHeader2, 
+			I.TextStyle.ToggleHeader3,
+		];
+
 		let ret = `text${String(I.TextStyle[v] || 'Paragraph')}`;
 
 		if ([ 
 			I.TextStyle.Header1,
 			I.TextStyle.Header2,
 			I.TextStyle.Header3,
-			I.TextStyle.ToggleHeader1, 
-			I.TextStyle.ToggleHeader2, 
-			I.TextStyle.ToggleHeader3,
+			...toggleHeaders,
 		].includes(v)) {
 			ret = `textHeader ${ret}`;
+		};
+
+		if (toggleHeaders.includes(v)) {
+			ret = `textToggleHeader ${ret}`;
 		};
 
 		return ret;
@@ -895,6 +903,16 @@ class UtilData {
 			{ relationKey: 'id', condition: I.FilterCondition.NotEqual, value: J.Constant.anytypeProfileId },
 			{ relationKey: 'type.uniqueKey', condition: I.FilterCondition.NotIn, value: [J.Constant.typeKey.template] }
 		]);
+	};
+
+	getGraphData (message: any): { nodes: any[]; edges: any[] } {
+		const nodes = message.nodes.map(it => S.Detail.mapper(it)).filter(it => it.type);
+		const nodeIds = new Set(nodes.map(it => it.id));
+
+		return {
+			nodes,
+			edges: message.edges.filter(it => nodeIds.has(it.source) && nodeIds.has(it.target)),
+		};
 	};
 
 	/**
