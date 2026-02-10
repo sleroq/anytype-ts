@@ -192,7 +192,7 @@ class Dataview {
 			U.Subscription.subscribe({
 				...param,
 				subId,
-				filters: filters.map(it => this.filterMapper(it, { rootId })),
+				filters: filters.map(it => this.filterMapper({ ...it, includeTime: false }, { rootId })),
 				sorts: sorts.map(it => this.sortMapper(it)),
 				keys,
 				limit,
@@ -232,7 +232,9 @@ class Dataview {
 		};
 
 		it.format = relation.format;
-		//it.includeTime = relation.includeTime;
+		if (undefined === it.includeTime) {
+			it.includeTime = relation.includeTime;
+		};
 
 		if (Relation.isArrayType(relation.format)) {
 			it.value = Relation.formatValue(relation, it.value, false);
