@@ -262,7 +262,7 @@ const MenuBlockRelationEdit = observer(forwardRef<I.MenuRef, I.Menu>((props, ref
 			const { details } = message;
 			
 			data.relationId = details.id;
-			S.Detail.update(J.Constant.subId.relation, { id: details.id, details }, false);
+			S.Detail.update(U.Subscription.spaceSubId(J.Constant.subId.relation), { id: details.id, details }, false);
 			addCommand?.(rootId, blockId, details, onChange);
 
 			Preview.toastShow({ text: U.String.sprintf(translate('menuBlockRelationEditToastOnCreate'), details.name) });

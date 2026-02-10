@@ -827,7 +827,7 @@ class UtilObject {
 				return;
 			};
 
-			S.Detail.update(J.Constant.subId.type, { id: typeId, details: { [key]: value } }, false);
+			S.Detail.update(U.Subscription.spaceSubId(J.Constant.subId.type), { id: typeId, details: { [key]: value } }, false);
 			C.BlockDataviewRelationSet(typeId, J.Constant.blockId.dataview, [ 'name', 'description' ].concat(U.Object.getTypeRelationKeys(typeId)), onChange);
 		});
 	};
@@ -957,7 +957,7 @@ class UtilObject {
 
 	defaultIcon (layout: I.ObjectLayout, typeId: string, size: number): string {
 		const theme = S.Common.getThemeClass();
-		const type = S.Detail.get(J.Constant.subId.type, typeId, [ 'name', 'iconName' ], true);
+		const type = S.Detail.get(U.Subscription.spaceSubId(J.Constant.subId.type), typeId, [ 'name', 'iconName' ], true);
 
 		let src = '';
 		if (type.iconName) {

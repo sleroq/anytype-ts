@@ -1287,11 +1287,11 @@ class UtilData {
 	};
 
 	checkIsArchived(id: string): boolean {
-		return S.Record.getRecordIds(J.Constant.subId.archived, '').includes(id);
+		return S.Record.getRecordIds(U.Subscription.spaceSubId(J.Constant.subId.archived), '').includes(id);
 	};
 
 	checkIsDeleted(id: string): boolean {
-		return S.Record.getRecordIds(J.Constant.subId.deleted, '').includes(id);
+		return S.Record.getRecordIds(U.Subscription.spaceSubId(J.Constant.subId.deleted), '').includes(id);
 	};
 
 	checkPageClose(isPopup: boolean, rootId: string): boolean {
@@ -1313,7 +1313,7 @@ class UtilData {
 	getWidgetChats(): any[] {
 		const spaceview = U.Space.getSpaceview();
 
-		return S.Record.getRecords(J.Constant.subId.chat).filter(it => {
+		return S.Record.getRecords(U.Subscription.spaceSubId(J.Constant.subId.chat)).filter(it => {
 			const counters = S.Chat.getChatCounters(S.Common.space, it.id);
 			const mode = U.Object.getChatNotificationMode(spaceview, it.id);
 

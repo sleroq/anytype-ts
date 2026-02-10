@@ -405,13 +405,13 @@ class Dataview {
 					case I.RelationType.MultiSelect:
 						value = Relation.getArrayValue(value);
 						if (value.length) {
-							option = S.Detail.get(J.Constant.subId.option, value[0]);
+							option = S.Detail.get(U.Subscription.spaceSubId(J.Constant.subId.option), value[0]);
 							bgColor = option?.color;
 						};
 						break;
 
 					case I.RelationType.Select:
-						option = S.Detail.get(J.Constant.subId.option, value);
+						option = S.Detail.get(U.Subscription.spaceSubId(J.Constant.subId.option), value);
 						bgColor = option?.color;
 						break;
 				};
@@ -1210,7 +1210,7 @@ class Dataview {
 					return;
 				};
 
-				S.Detail.update(J.Constant.subId.type, { id: rootId, details: { recommendedRelations: value } }, false);
+				S.Detail.update(U.Subscription.spaceSubId(J.Constant.subId.type), { id: rootId, details: { recommendedRelations: value } }, false);
 				C.BlockDataviewRelationSet(rootId, J.Constant.blockId.dataview, [ 'name', 'description' ].concat(U.Object.getTypeRelationKeys(rootId)), () => {
 					this.viewRelationAdd(rootId, blockId, relation.relationKey, index, view, callBack);
 				});
