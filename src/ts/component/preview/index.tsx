@@ -101,8 +101,9 @@ const PreviewIndex = observer(forwardRef(() => {
 		const st = win.scrollTop();
 		const ow = node.outerWidth();
 		const oh = node.outerHeight();
+		const offsetY = preview.noOffset ? 0 : OFFSET_Y;
 		const css: any = { opacity: 0, left: 0, top: 0 };
-		const pcss: any = { top: 'auto', bottom: 'auto', width: '', left: '', height: height + OFFSET_Y, clipPath: '' };
+		const pcss: any = { top: 'auto', bottom: 'auto', width: '', left: '', height: height + offsetY, clipPath: '' };
 		const vsTop = (1 - height / oh) / 2 * 100;
 		const vsBot = (1 + height / oh) / 2 * 100;
 
@@ -128,18 +129,18 @@ const PreviewIndex = observer(forwardRef(() => {
 		};
 
 		if (typeY == I.MenuDirection.Top) {
-			css.top = y - oh - OFFSET_Y;
+			css.top = y - oh - offsetY;
 			css.transform = 'translateY(-5%)';
 
-			pcss.bottom = -height - OFFSET_Y;
+			pcss.bottom = -height - offsetY;
 			pcss.clipPath = cpTop;
 		};
 
 		if (typeY == I.MenuDirection.Bottom) {
-			css.top = y + height + OFFSET_Y;
+			css.top = y + height + offsetY;
 			css.transform = 'translateY(5%)';
 
-			pcss.top = -height - OFFSET_Y;
+			pcss.top = -height - offsetY;
 			pcss.clipPath = cpBot;
 		};
 			

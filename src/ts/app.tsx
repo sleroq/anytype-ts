@@ -206,32 +206,8 @@ const App: FC = () => {
 			C.AppSetDeviceState(state == 'suspend' ? I.AppDeviceState.Background : I.AppDeviceState.Foreground);
 		});
 
-		Renderer.on('tab-show-tooltip', (e: any, data: any) => {
-			const spaceview = U.Space.getSpaceviewBySpaceId(data.spaceId);
-
-			if (!spaceview) {
-				return;
-			};
-
-			Preview.previewShow({
-				rect: { x: data.offsetLeft, y: 0, width: data.width, height: 0 },
-				classNameWrap: 'isTab',
-				object: spaceview,
-				target: spaceview.id,
-				noUnlink: true,
-				noEdit: true,
-				passThrough: true,
-				noAnimation: true,
-				typeX: I.MenuDirection.Left,
-				tabObject: data.objectData ? { ...data.objectData, name: data.title } : null,
-				delay: 0,
-				type: I.PreviewType.Tab,
-			});
-		});
-
-		Renderer.on('tab-hide-tooltip', () => {
-			Preview.previewHide(true);
-		});
+		Renderer.on('tab-show-tooltip', (e: any, data: any) => U.Common.tabTooltipShow(data));
+		Renderer.on('tab-hide-tooltip', () => U.Common.tabTooltipHide());
 	};
 	
 	const unregisterIpcEvents = () => {

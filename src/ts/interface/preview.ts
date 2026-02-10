@@ -38,6 +38,7 @@ export interface Preview {
 	noAnimation?: boolean;
 	withPlural?: boolean;
 	typeX?: I.MenuDirection.Left | I.MenuDirection.Center | I.MenuDirection.Right;
+	noOffset?: boolean;
 	tabObject?: any;
 	delay?: number;
 	x?: number;

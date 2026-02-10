@@ -1579,6 +1579,34 @@ class UtilCommon {
 		return ret.join('/');
 	};
 
+	tabTooltipShow (data: any) {
+		const spaceview = U.Space.getSpaceviewBySpaceId(data.spaceId);
+
+		if (!spaceview) {
+			return;
+		};
+
+		Preview.previewShow({
+			rect: { x: data.offsetLeft + 6, y: 2, width: data.width, height: 0 },
+			classNameWrap: 'isTab',
+			object: spaceview,
+			target: spaceview.id,
+			noUnlink: true,
+			noEdit: true,
+			passThrough: true,
+			noAnimation: true,
+			noOffset: true,
+			typeX: I.MenuDirection.Left,
+			tabObject: data.objectData ? { ...data.objectData, name: data.title } : null,
+			delay: 0,
+			type: I.PreviewType.Tab,
+		});
+	};
+
+	tabTooltipHide () {
+		Preview.previewHide(true);
+	};
+
 	getViewFilters (view: any): any[] {
 		return (view.filters || []).filter(it => {
 			return S.Record.getRelationByKey(it.relationKey) || [ I.FilterOperator.And, I.FilterOperator.Or ].includes(it.operator);
