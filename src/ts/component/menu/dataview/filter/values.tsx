@@ -506,10 +506,6 @@ const MenuDataviewFilterValues = observer(forwardRef<I.MenuRef, I.Menu>((props, 
 							};
 						};
 
-						if (items.length && templates.length) {
-							templates.push({ isDiv: true });
-						};
-
 						return templates.concat(items);
 					}}
 					rootId={rootId}

@@ -232,7 +232,7 @@ class Dataview {
 		};
 
 		it.format = relation.format;
-		it.includeTime = relation.includeTime;
+		//it.includeTime = relation.includeTime;
 
 		if (Relation.isArrayType(relation.format)) {
 			it.value = Relation.formatValue(relation, it.value, false);
