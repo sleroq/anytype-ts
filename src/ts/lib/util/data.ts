@@ -874,7 +874,7 @@ class UtilData {
 			title: text,
 			icon: '',
 			spaceIcon: U.Graph.imageSrc(spaceview) || U.Object.defaultIcon(spaceview?.layout, spaceview?.type, 100),
-			spaceId: S.Common.space || '',
+			spaceId: spaceview.targetSpaceId || '',
 			layout: I.ObjectLayout.Page,
 		});
 	};
