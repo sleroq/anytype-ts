@@ -375,9 +375,12 @@ class Sidebar {
 		const width = dataLeft.isClosed ? 0 : dataLeft.width;
 		const newWidth = width + dataSubLeft.width;
 
+		subPageWrapperLeft.removeClass('sidebarAnimation isOpening isClosing');
 		subPageWrapperLeft.css({ transform: 'translate3d(-100%,0px,0px)' });
 		objLeft.css({ width });
 		dummyLeft.css({ width });
+
+		void subPageWrapperLeft[0]?.offsetHeight;
 
 		this.resizePage(false, newWidth, null, animate);
 		this.setData(I.SidebarPanel.SubLeft, false, { isClosed: false }, save);
@@ -429,10 +432,10 @@ class Sidebar {
 
 		if (shouldOpen) {
 			if (dataLeft.isClosed && dataSubLeft.isClosed) {
-				this.leftPanelOpen(dataLeft.width, true, true);
+				this.leftPanelSubPageOpen('widget', true, true);
 				window.setTimeout(() => {
 					this.setAnimating(false);
-					this.leftPanelSubPageOpen('widget', true, true);
+					this.leftPanelOpen(dataLeft.width, true, true);
 				}, delay);
 			} else
 			if (dataLeft.isClosed) {
@@ -441,10 +444,10 @@ class Sidebar {
 				this.leftPanelSubPageOpen('widget', true, true);
 			};
 		} else {
-			this.leftPanelSubPageClose(true, true);
+			this.leftPanelClose(true, true);
 			window.setTimeout(() => {
 				this.setAnimating(false);
-				this.leftPanelClose(true, true);
+				this.leftPanelSubPageClose(true, true);
 			}, delay);
 		};
 	};
