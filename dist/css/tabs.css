@@ -48,10 +48,21 @@ body.platform-win32.showMenuBar {
 	align-items: center; flex-direction: row; -webkit-app-region: drag;
 }
 #menuBar {
-	.side { width: 50%; height: 100%; display: flex; align-items: center; padding: 0px 12px; font-size: 12px; font-weight: 500; }
-	.side.left { justify-content: flex-start; gap: 0px 2px; }
+	.side { width: 50%; height: 100%; display: flex; align-items: center; padding: 0px 4px; font-size: 12px; font-weight: 500; }
+	.side.left { justify-content: flex-start; }
 	.side.right { justify-content: flex-end; }
-	.name { line-height: 28px; }
+
+	#window-menu {
+		display: flex; align-items: center; gap: 0px 2px; padding: 0px 8px; height: 100%;
+		-webkit-app-region: no-drag; transition: background-color 0.1s ease-in-out;
+
+		&:hover { background-color: var(--color-shape-highlight-medium); }
+		.txt { line-height: 28px; }
+		.arrow {
+			width: 12px; height: 12px; background-size: contain; background-position: center; background-repeat: no-repeat;
+			background-image: url('../img/icon/window/arrow.svg');
+		}
+	}
 
 	.icon {
 		width: 28px !important; height: 100% !important; border-radius: 0px !important; background-size: 12px !important;
@@ -59,7 +70,6 @@ body.platform-win32.showMenuBar {
 	}
 
 	.icon:hover { background-color: var(--color-shape-highlight-medium); }
-	.icon.window-menu { background-image: url('../img/icon/window/menu.svg'); }
 	.icon.window-min { background-image: url('../img/icon/window/min.svg'); }
 	.icon.window-max { background-image: url('../img/icon/window/max.svg'); }
 	.icon.window-close { background-image: url('../img/icon/window/close.svg'); }
@@ -165,7 +175,7 @@ body.platform-win32.showMenuBar {
 
 html.themeDark {
 	#menuBar {
-		.icon.window-menu { background-image: url('../img/theme/dark/icon/window/menu.svg'); }
+		#window-menu { .arrow { background-image: url('../img/theme/dark/icon/window/arrow.svg'); } }
 		.icon.window-min { background-image: url('../img/theme/dark/icon/window/min.svg'); }
 		.icon.window-max { background-image: url('../img/theme/dark/icon/window/max.svg'); }
 		.icon.window-close { background-image: url('../img/theme/dark/icon/window/close.svg'); }
