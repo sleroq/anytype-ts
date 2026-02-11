@@ -678,13 +678,13 @@ class UtilData {
 	 * @param {I.SortType} dir - The sort direction.
 	 * @returns {number} The sort order.
 	 */
-	sortByNumericKey(key: string, c1: any, c2: any, dir: I.SortType) {
+	sortByNumericKey (key: string, c1: any, c2: any, dir: I.SortType) {
 		const k1 = Number(c1[key]) || 0;
 		const k2 = Number(c2[key]) || 0;
 
 		if (k1 > k2) return dir == I.SortType.Asc ? 1 : -1;
 		if (k1 < k2) return dir == I.SortType.Asc ? -1 : 1;
-		return this.sortByName(c1, c2);
+		return 0;
 	};
 
 	/**
@@ -693,7 +693,7 @@ class UtilData {
 	 * @param {any} c2 - The second object.
 	 * @returns {number} The sort order.
 	 */
-	sortByWeight(c1: any, c2: any) {
+	sortByWeight (c1: any, c2: any) {
 		return this.sortByNumericKey('_sortWeight_', c1, c2, I.SortType.Desc);
 	};
 
@@ -703,7 +703,7 @@ class UtilData {
 	 * @param {any} c2 - The second object.
 	 * @returns {number} The sort order.
 	 */
-	sortByFormat(c1: any, c2: any) {
+	sortByFormat (c1: any, c2: any) {
 		return this.sortByNumericKey('format', c1, c2, I.SortType.Asc);
 	};
 
@@ -713,11 +713,11 @@ class UtilData {
 	 * @param {any} c2 - The second object.
 	 * @returns {number} The sort order.
 	 */
-	sortByLastUsedDate(c1: any, c2: any) {
+	sortByLastUsedDate (c1: any, c2: any) {
 		return this.sortByNumericKey('lastUsedDate', c1, c2, I.SortType.Desc);
 	};
 
-	typeSortKeys(isChat: boolean) {
+	typeSortKeys (isChat: boolean) {
 		return isChat ? TYPE_KEYS.chat : TYPE_KEYS.default;
 	};
 
@@ -727,7 +727,7 @@ class UtilData {
 	 * @param {any} c2 - The second object.
 	 * @returns {number} The sort order.
 	 */
-	sortByTypeKey(c1: any, c2: any, isChat: boolean) {
+	sortByTypeKey (c1: any, c2: any, isChat: boolean) {
 		const keys = this.typeSortKeys(isChat);
 		const i1 = keys.indexOf(c1.uniqueKey);
 		const i2 = keys.indexOf(c2.uniqueKey);
