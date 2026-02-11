@@ -1545,7 +1545,7 @@ const EditorPage = observer(forwardRef<I.BlockRef, Props>((props, ref) => {
 		} else
 		if (block.isTextToggleHeader() && (range.from == length)) {
 			S.Block.toggle(rootId, block.id, true);
-			blockCreate(block.id, I.BlockPosition.Inner, {
+			blockCreate(block.id, I.BlockPosition.InnerFirst, {
 				type: I.BlockType.Text,
 				style: I.TextStyle.Paragraph,
 			});
