@@ -21,15 +21,15 @@
 				.inner {
 					.relationSelect,
 					.conditionSelect,
-					.valueSelect .select { flex-shrink: 0; }
+					.valueSelect .select { flex-shrink: 0; font-weight: 400; }
 
 					.relationSelect { position: relative; display: flex; align-items: center; gap: 0px 6px; }
 					.relationSelect {
 						.iconObject { flex-shrink: 0; }
-						.label { @include text-common; padding: 0px; margin: 0px; @include text-overflow-nw; color: var(--color-text-primary); }
+						.label { @include text-common; font-weight: 400; padding: 0px; margin: 0px; @include text-overflow-nw; color: var(--color-text-primary); }
 					}
 
-					.conditionSelect { @include text-common; font-weight: 500; }
+					.conditionSelect { @include text-common; }
 
 					.valueSelect { flex-grow: 1; min-width: 0; }
 					.valueSelect {
