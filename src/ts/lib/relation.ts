@@ -2,6 +2,7 @@ import { I, S, U, J, translate, Dataview } from 'Lib';
 
 const DICTIONARY = [ 'layout', 'origin', 'importType' ];
 const SKIP_SYSTEM_KEYS = [ 'tag', 'description' ];
+const relationIcons = require.context('img/icon/relation/default', false, /\.svg$/);
 
 class Relation {
 
@@ -39,6 +40,25 @@ class Relation {
 	 */
 	public iconName (key: string, v: I.RelationType): string {
 		return key == 'description' ? 'description' : this.typeName(v);
+	};
+
+	public icon (key: string, format: I.RelationType, color?: string): string {
+		let svg = '';
+		try {
+			svg = relationIcons(`./${this.iconName(key, format)}.svg`) as string;
+		} catch (e) {
+			svg = require('img/icon/error.svg');
+		};
+
+		if (color) {
+			try {
+				const chunk = svg.split('base64,')[1];
+				const decoded = atob(chunk).replace(/fill="black"/g, `fill="${color}"`);
+				svg = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(decoded)));
+			} catch (e) { /**/ };
+		};
+
+		return svg;
 	};
 
 	/**
@@ -612,10 +632,10 @@ class Relation {
 				return;
 			};
 
-			ret.push({ 
-				id: relation.relationKey, 
-				icon: `relation ${this.className(relation.format)}`,
-				name: relation.name, 
+			ret.push({
+				id: relation.relationKey,
+				object: { relationFormat: relation.format, layout: I.ObjectLayout.Relation },
+				name: relation.name,
 				isHidden: relation.isHidden,
 				format: relation.format,
 				maxCount: relation.maxCount,
@@ -651,20 +671,20 @@ class Relation {
 			};
 			return !it.isHidden && formats.includes(it.format);
 		}).map(it => ({
-			id: it.relationKey, 
-			icon: `relation ${this.className(it.format)}`,
-			name: it.name, 
+			id: it.relationKey,
+			object: { relationFormat: it.format, layout: I.ObjectLayout.Relation },
+			name: it.name,
 		}));
 
-		const ret = [
+		const ret: any[] = [
 			{ id: 'none', icon: '', name: translate('commonNone') },
 			{ id: J.Relation.pageCover, icon: 'image', name: translate('libRelationPageCover') },
 		];
 
 		if (!options.find(it => it.id == 'picture')) {
-			ret.push({ 
-				id: 'picture', 
-				icon: `relation ${this.className(I.RelationType.File)}`,
+			ret.push({
+				id: 'picture',
+				object: { relationFormat: I.RelationType.File, layout: I.ObjectLayout.Relation },
 				name: translate('libRelationPicture'),
 			});
 		};
@@ -724,9 +744,9 @@ class Relation {
 		});
 
 		return U.Common.arrayUniqueObjects(options, 'relationKey').map(it => ({
-			id: it.relationKey, 
-			icon: `relation ${this.className(it.format)}`,
-			name: it.name, 
+			id: it.relationKey,
+			object: { relationFormat: it.format, layout: I.ObjectLayout.Relation },
+			name: it.name,
 		}));
 	};
 
