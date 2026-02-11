@@ -96,6 +96,7 @@ const DataviewFilterRule = observer(forwardRef<{}, Props>((props, ref) => {
 							key={`${nodeId}-days-${quickOption}`}
 							ref={inputRef}
 							value={value}
+							className="round c36"
 							placeholder={translate(`placeholderCell${I.RelationType.Number}`)}
 							onKeyUp={(e: any, v: string) => onUpdate(index, { value: v })}
 							readonly={readonly}
@@ -117,6 +118,7 @@ const DataviewFilterRule = observer(forwardRef<{}, Props>((props, ref) => {
 							key={`${nodeId}-date-${quickOption}`}
 							ref={inputRef}
 							value={value ? U.Date.date('d.m.Y', value) : ''}
+							className="round c36"
 							placeholder={ph}
 							maskOptions={{
 								mask,
@@ -195,6 +197,7 @@ const DataviewFilterRule = observer(forwardRef<{}, Props>((props, ref) => {
 					<Input
 						ref={inputRef}
 						value={value}
+						className="round c36"
 						placeholder={translate(`placeholderCell${relation.format}`)}
 						onKeyUp={(e: any, v: string) => onUpdate(index, { value: v })}
 						readonly={readonly}
