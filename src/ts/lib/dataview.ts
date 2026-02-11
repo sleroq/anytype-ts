@@ -188,6 +188,8 @@ class Dataview {
 			};
 		};
 
+		console.log(JSON.stringify({ filters, sorts }, null, 2));
+
 		const cb = () => {
 			U.Subscription.subscribe({
 				...param,
@@ -225,25 +227,30 @@ class Dataview {
 	 * @returns {any} The mapped object.
 	 */
 	filterMapper (it: any, param?: any) {
-		const relation = S.Record.getRelationByKey(it.relationKey);
-
-		if (!relation) {
-			return it;
-		};
-
-		it.format = relation.format;
-		if (undefined === it.includeTime) {
-			it.includeTime = relation.includeTime;
-		};
-
-		if (Relation.isArrayType(relation.format)) {
-			it.value = Relation.formatValue(relation, it.value, false);
-
-			if (Array.isArray(it.value)) {
-				it.value = it.value.map(it => this.valueTemplateMapper(it, param));
-			} else {
-				it.value = this.valueTemplateMapper(it.value, param);
+		if (it.relationKey) {
+			const relation = S.Record.getRelationByKey(it.relationKey);
+			if (!relation) {
+				return it;
 			};
+
+			it.format = relation.format;
+			if (undefined === it.includeTime) {
+				it.includeTime = relation.includeTime;
+			};
+
+			if (Relation.isArrayType(relation.format)) {
+				it.value = Relation.formatValue(relation, it.value, false);
+
+				if (Array.isArray(it.value)) {
+					it.value = it.value.map(it => this.valueTemplateMapper(it, param));
+				} else {
+					it.value = this.valueTemplateMapper(it.value, param);
+				};
+			};
+		};
+
+		if (it.nestedFilters && it.nestedFilters.length) {
+			it.nestedFilters = it.nestedFilters.map((child: any) => this.filterMapper(child, param));
 		};
 
 		return it;
