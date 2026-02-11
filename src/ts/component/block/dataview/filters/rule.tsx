@@ -96,6 +96,7 @@ const DataviewFilterRule = observer(forwardRef<{}, Props>((props, ref) => {
 							key={`${nodeId}-days-${quickOption}`}
 							ref={inputRef}
 							value={value}
+							className="round c36"
 							placeholder={translate(`placeholderCell${I.RelationType.Number}`)}
 							onKeyUp={(e: any, v: string) => onUpdate(index, { value: v })}
 							readonly={readonly}
@@ -117,6 +118,7 @@ const DataviewFilterRule = observer(forwardRef<{}, Props>((props, ref) => {
 							key={`${nodeId}-date-${quickOption}`}
 							ref={inputRef}
 							value={value ? U.Date.date('d.m.Y', value) : ''}
+							className="round c36"
 							placeholder={ph}
 							maskOptions={{
 								mask,
@@ -152,6 +154,7 @@ const DataviewFilterRule = observer(forwardRef<{}, Props>((props, ref) => {
 				return (
 					<div className="dateWrapper">
 						<Select
+							className="round c36"
 							key={`${nodeId}-quick-${relationKey}-${condition}`}
 							id={`${nodeId}-quick`}
 							value={String(quickOption)}
@@ -195,6 +198,7 @@ const DataviewFilterRule = observer(forwardRef<{}, Props>((props, ref) => {
 					<Input
 						ref={inputRef}
 						value={value}
+						className="round c36"
 						placeholder={translate(`placeholderCell${relation.format}`)}
 						onKeyUp={(e: any, v: string) => onUpdate(index, { value: v })}
 						readonly={readonly}
@@ -437,14 +441,14 @@ const DataviewFilterRule = observer(forwardRef<{}, Props>((props, ref) => {
 			)}
 
 			<div className="inner">
-				<div className="relationSelect select" onClick={onRelationClick}>
+				<div className="relationSelect select round c36" onClick={onRelationClick}>
 					{relation ? <IconObject size={20} object={{ relationFormat: relation.format, layout: I.ObjectLayout.Relation }} /> : ''}
 					<Label text={relation?.name || ''} />
 					<Icon className="arrow" />
 				</div>
 
 				<Select
-					className="conditionSelect"
+					className="conditionSelect  round c36"
 					key={`${nodeId}-condition-${relationKey}`}
 					ref={conditionRef}
 					id={`${nodeId}-condition`}

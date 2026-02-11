@@ -84,6 +84,7 @@ const BlockDataviewFilters = observer(forwardRef<{}, Props>((props, ref) => {
 			vertical: I.MenuDirection.Bottom,
 			horizontal: I.MenuDirection.Left,
 			offsetY: 4,
+			noFlipX: true,
 		};
 
 		onFilterAddClick(menuParam);
@@ -267,7 +268,11 @@ const BlockDataviewFilters = observer(forwardRef<{}, Props>((props, ref) => {
 							/>
 						);
 					})}
-					<Icon id="item-add" className="plus" onClick={onAdd} />
+					<div id="item-add" className="itemAdd" onClick={onAdd}>
+						<Icon className="plus" />
+						<Label text={translate('commonFilter')} />
+					</div>
+
 				</div>
 
 				<div id="sideRight" className="side right">
