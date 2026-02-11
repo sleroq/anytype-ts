@@ -123,6 +123,10 @@
 	.menu.menuDataviewFilterValues {
 		.content { padding: 8px 0px 8px 0px; overflow: hidden; max-height: unset; }
 
+		&.compact {
+			.content { padding-bottom: 0px; }
+		}
+
 		.inner {
 			> .head { display: flex; align-items: center; justify-content: space-between; gap: 0px 4px; padding: 0px 10px; }
 			> .head {
