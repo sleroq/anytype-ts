@@ -21,23 +21,14 @@
 				.inner {
 					.relationSelect,
 					.conditionSelect,
-					.valueSelect .select {
-						border: 1px solid var(--color-shape-secondary); border-radius: 6px;  flex-shrink: 0; padding: 6px 24px 6px 10px;
-						height: 36px;
-					}
-					.relationSelect:hover,
-					.relationSelect.hover,
-					.conditionSelect:hover,
-					.conditionSelect.hover,
-					.valueSelect .select:hover,
-					.valueSelect .select.hover { background-color: var(--color-shape-tertiary); }
+					.valueSelect .select { flex-shrink: 0; padding: 6px 24px 6px 10px; }
 
 					.relationSelect,
 					.conditionSelect {
 						.icon.arrow { right: 2px !important; }
 					}
 
-					.relationSelect { position: relative; display: flex; align-items: center; gap: 0px 4px; }
+					.relationSelect { position: relative; display: flex; align-items: center; gap: 0px 6px; }
 					.relationSelect {
 						.iconObject { flex-shrink: 0; }
 						.label { @include text-common; padding: 0px; margin: 0px; @include text-overflow-nw; color: var(--color-text-primary); }

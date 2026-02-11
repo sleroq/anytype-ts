@@ -35,6 +35,15 @@
 	}
 }
 
+.select.round {
+	display: flex; align-items: center; border-radius: 14px; border: 0px;
+	background: var(--color-shape-highlight-light-solid);
+}
+.select.round {
+	&.hover, &:hover { background: var(--color-shape-highlight-medium); }
+	&.c36 { height: 36px; border-radius: 12px; }
+}
+
 .select.isReadonly { cursor: default; padding-right: 6px; }
 .select.isReadonly {
 	.icon.arrow { display: none; }
