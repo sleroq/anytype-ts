@@ -702,12 +702,10 @@ class Api {
 
 		items.push({ type: 'separator' });
 
-		if (!isPinned) {
-			items.push({
-				label: Util.translate('electronMenuTabClose'),
-				click: () => WindowManager.removeTab(win, tabId, true),
-			});
-		};
+		items.push({
+			label: Util.translate('electronMenuTabClose'),
+			click: () => WindowManager.removeTab(win, tabId, true),
+		});
 
 		items.push({
 			label: Util.translate('electronMenuTabCloseOtherTabs'),
