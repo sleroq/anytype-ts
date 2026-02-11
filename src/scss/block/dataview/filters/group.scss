@@ -21,12 +21,7 @@
 				.inner {
 					.relationSelect,
 					.conditionSelect,
-					.valueSelect .select { flex-shrink: 0; padding: 6px 24px 6px 10px; }
-
-					.relationSelect,
-					.conditionSelect {
-						.icon.arrow { right: 2px !important; }
-					}
+					.valueSelect .select { flex-shrink: 0; }
 
 					.relationSelect { position: relative; display: flex; align-items: center; gap: 0px 6px; }
 					.relationSelect {
@@ -35,9 +30,6 @@
 					}
 
 					.conditionSelect { @include text-common; font-weight: 500; }
-					.conditionSelect {
-						.currentSelected { line-height: 22px; }
-					}
 
 					.valueSelect { flex-grow: 1; min-width: 0; }
 					.valueSelect {
