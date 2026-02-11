@@ -182,6 +182,7 @@ const DataviewFilterRule = observer(forwardRef<{}, Props>((props, ref) => {
 						id={`${nodeId}-checkbox`}
 						value={value ? '1' : '0'}
 						options={checkboxOptions}
+						className="round c36"
 						onChange={v => onUpdate(index, { value: Boolean(Number(v)) })}
 						menuParam={{ classNameWrap: 'fromBlock', offsetY: 4 }}
 						readonly={readonly}
