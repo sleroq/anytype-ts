@@ -617,7 +617,20 @@ const BlockText = observer(forwardRef<I.BlockRef, Props>((props, ref) => {
 		// Parse markdown commands
 		if (block.canHaveMarks() && (!isInsideTable && !block.isTextCode())) {
 			for (const k in Markdown) {
-				const newStyle = Markdown[k];
+				let newStyle = Markdown[k];
+
+				// If current block is a toggle, heading markdown should create toggle headings
+				if (block.isTextToggle()) {
+					const toggleMap = {
+						[I.TextStyle.Header1]: I.TextStyle.ToggleHeader1,
+						[I.TextStyle.Header2]: I.TextStyle.ToggleHeader2,
+						[I.TextStyle.Header3]: I.TextStyle.ToggleHeader3,
+					};
+
+					if (toggleMap[newStyle]) {
+						newStyle = toggleMap[newStyle];
+					};
+				};
 
 				if (newStyle == content.style) {
 					continue;
