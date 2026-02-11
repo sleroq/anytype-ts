@@ -191,6 +191,7 @@ const DataviewFilterRule = observer(forwardRef<{}, Props>((props, ref) => {
 			};
 
 			case I.RelationType.ShortText:
+			case I.RelationType.LongText:
 			case I.RelationType.Number:
 			case I.RelationType.Url:
 			case I.RelationType.Phone:
@@ -214,7 +215,8 @@ const DataviewFilterRule = observer(forwardRef<{}, Props>((props, ref) => {
 					.filter(it => !it._empty_ && !it.isArchived && !it.isDeleted);
 
 				if (!items.length) {
-					return null;
+					const key = relation.format == I.RelationType.File ? 'filterPlaceholderFile' : 'filterPlaceholderObject';
+					return <Label className="placeholder" text={translate(key)} />;
 				};
 
 				const isFile = relation.format == I.RelationType.File;
@@ -272,7 +274,7 @@ const DataviewFilterRule = observer(forwardRef<{}, Props>((props, ref) => {
 					.filter(it => !it.isArchived && !it.isDeleted && !it._empty_);
 
 				if (!items.length) {
-					return null;
+					return <Label className="placeholder" text={translate('filterPlaceholderSelect')} />;
 				};
 
 				const visible = items.slice(0, 2);
@@ -325,6 +327,7 @@ const DataviewFilterRule = observer(forwardRef<{}, Props>((props, ref) => {
 		S.Menu.open('dataviewFilterValues', {
 			element: `#${nodeId} .valueSelect`,
 			classNameWrap: 'fromBlock',
+			className: 'compact',
 			horizontal: I.MenuDirection.Right,
 			offsetY: 4,
 			data: {

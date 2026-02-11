@@ -188,8 +188,6 @@ class Dataview {
 			};
 		};
 
-		console.log(JSON.stringify({ filters, sorts }, null, 2));
-
 		const cb = () => {
 			U.Subscription.subscribe({
 				...param,
