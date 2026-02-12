@@ -316,7 +316,6 @@ const ViewBoard = observer(forwardRef<I.ViewRef, I.ViewComponent>((props, ref) =
 		const win = $(window);
 		const selection = S.Common.getRef('selectionProvider');
 		const selectedIds = selection?.get(I.SelectType.Record) || [];
-		console.log('selectedids', selectedIds)
 
 		// Store selected record IDs before they get cleared in onDragStartCommon
 		// Include the dragged record if it's not already in the selection
@@ -420,8 +419,8 @@ const ViewBoard = observer(forwardRef<I.ViewRef, I.ViewComponent>((props, ref) =
 					}
 					recordsBySourceGroup.get(groupId).push(id);
 					break;
-				}
-			}
+				};
+			};
 		});
 
 		// Ensure the dragged record is included (in case it wasn't in selection)
@@ -432,21 +431,21 @@ const ViewBoard = observer(forwardRef<I.ViewRef, I.ViewComponent>((props, ref) =
 			const groupRecords = recordsBySourceGroup.get(current.groupId);
 			if (!groupRecords.includes(record.id)) {
 				groupRecords.push(record.id);
-			}
-		}
+			};
+		};
 
 		if (change) {
 			// Move all selected records to the new group
 			const allRecordIds: string[] = [];
 			const recordDetails: any[] = [];
-			let targetIndex = newIndex.current;
+			const targetIndex = newIndex.current;
 
 			// Process each source group
 			recordsBySourceGroup.forEach((ids, sourceGroupId) => {
 				if (sourceGroupId === newGroupId.current) {
 					// Records already in target group, don't move them
 					return;
-				}
+				};
 
 				const sourceSubId = S.Record.getGroupSubId(rootId, block.id, sourceGroupId);
 
@@ -483,7 +482,7 @@ const ViewBoard = observer(forwardRef<I.ViewRef, I.ViewComponent>((props, ref) =
 				C.ObjectListSetDetails(allRecordIds, [ { key: view.groupRelationKey, value: newGroup.value } ], () => {
 					objectOrderUpdate(orders, allRecordIds);
 				});
-			}
+			};
 		} else {
 			// Moving within the same group - only move the dragged record for simplicity
 			if (current.index + 1 == newIndex.current) {
