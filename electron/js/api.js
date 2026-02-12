@@ -700,17 +700,21 @@ class Api {
 			});
 		};
 
-		items.push({ type: 'separator' });
+		const isLastPinned = isPinned && (win.views.length <= 1);
 
-		items.push({
-			label: Util.translate('electronMenuTabClose'),
-			click: () => WindowManager.removeTab(win, tabId, true),
-		});
+		if (!isLastPinned) {
+			items.push({ type: 'separator' });
 
-		items.push({
-			label: Util.translate('electronMenuTabCloseOtherTabs'),
-			click: () => WindowManager.closeOtherTabs(win, tabId),
-		});
+			items.push({
+				label: Util.translate('electronMenuTabClose'),
+				click: () => WindowManager.removeTab(win, tabId, true),
+			});
+
+			items.push({
+				label: Util.translate('electronMenuTabCloseOtherTabs'),
+				click: () => WindowManager.closeOtherTabs(win, tabId),
+			});
+		};
 
 		const menu = Menu.buildFromTemplate(items);
 		menu.popup({ window: win });
