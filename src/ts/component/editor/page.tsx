@@ -2069,6 +2069,22 @@ const EditorPage = observer(forwardRef<I.BlockRef, Props>((props, ref) => {
 
 		options.push({ id: 'cancel', name: translate('editorPagePasteText') });
 
+		const pasteOrder = Storage.get('pasteOptionOrder') || [];
+		if (pasteOrder.length) {
+			const section = options[0];
+			const cancel = options[options.length - 1];
+			const sortable = options.slice(1, -1);
+
+			sortable.sort((a: any, b: any) => {
+				const ai = pasteOrder.indexOf(a.id);
+				const bi = pasteOrder.indexOf(b.id);
+				return (ai == -1 ? sortable.length : ai) - (bi == -1 ? sortable.length : bi);
+			});
+
+			options.length = 0;
+			options.push(section, ...sortable, cancel);
+		};
+
 		S.Common.clearTimeout('blockContext');
 
 		const menuParam = {
@@ -2095,6 +2111,10 @@ const EditorPage = observer(forwardRef<I.BlockRef, Props>((props, ref) => {
 				options,
 				noFilter: true,
 				onSelect: (event: any, item: any) => {
+					const order = (Storage.get('pasteOptionOrder') || []).filter((it: string) => it != item.id);
+					order.unshift(item.id);
+					Storage.set('pasteOptionOrder', order);
+
 					let marks = U.Common.objectCopy(block.content.marks || []);
 					let value = block.content.text;
 					let to = 0;
