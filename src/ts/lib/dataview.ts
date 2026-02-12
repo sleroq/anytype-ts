@@ -1120,7 +1120,7 @@ class Dataview {
 			nestedFilters: [
 				{
 					relationKey: 'name',
-					condition: I.FilterCondition.In,
+					condition: I.FilterCondition.Like,
 					value: '',
 				}
 			],
