@@ -38,6 +38,7 @@ const EditorPage = observer(forwardRef<I.BlockRef, Props>((props, ref) => {
 	const buttonAdd = useRef<any>(null);
 	const blockFeatured = useRef<any>(null);
 	const container = useRef<any>(null);
+	const scrollTopRef = useRef(0);
 
 	useEffect(() => {
 		open();
@@ -68,17 +69,18 @@ const EditorPage = observer(forwardRef<I.BlockRef, Props>((props, ref) => {
 			return;
 		};
 
-		const top = Storage.getScroll('editor', rootId, isPopup);
-
 		checkDeleted();
 		initNodes();
 		rebind();
-		resizePage();
-		onScroll();
+		resizePage(() => {
+			if (scrollTopRef.current) {
+				U.Common.getScrollContainer(isPopup).scrollTop(scrollTopRef.current);
+				scrollTopRef.current = 0;
+			};
+		});
 
-		if (top) {
-			window.setTimeout(() => U.Common.getScrollContainer(isPopup).scrollTop(top), 40);
-		};
+		tocRef.current?.onScroll();
+		Preview.previewHide(false);
 
 		focus.apply();
 		S.Block.updateNumbers(rootId);
@@ -109,6 +111,7 @@ const EditorPage = observer(forwardRef<I.BlockRef, Props>((props, ref) => {
 	};
 
 	const open = () => {
+		scrollTopRef.current = Storage.getScroll('editor', rootId, isPopup);
 		setIsDeleted(false);
 		idRef.current = rootId;
 
